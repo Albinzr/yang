@@ -33,6 +33,7 @@ volumes:
   mongodb-storage:
     name: mongodb-storage
 
+#connection to external network
 networks:
   yinyang-network:
     external: true
