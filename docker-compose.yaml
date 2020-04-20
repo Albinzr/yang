@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+
+# reader server to mongo
+  yang:
+    build:
+      context: .
+      dockerfile: yang.dockerfile
+    container_name: yang-container 
+    image: yang-image
+    networks:
+      - yinyang-network
+    
+
+#mongodb server
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-storage:/data/db
+    networks:
+      - yinyang-network
+    container_name: mongo-container 
+    logging:
+      driver: none
+
+#mongodb volume
+volumes:
+  mongodb-storage:
+    name: mongodb-storage
+
+networks:
+  yinyang-network:
+    external: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
