@@ -20,6 +20,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
       - 27017:27017
+    expose:
+    - "27017"
     volumes:
       - mongodb-storage:/data/db
     networks:

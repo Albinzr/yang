@@ -8,6 +8,7 @@ services:
     networks:
       - yinyang-network
   
+
 #mongodb server
   mongodb:
     image: mongo:latest
@@ -16,6 +17,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
       - 27017:27017
+    expose:
+    - "27017"
     volumes:
       - mongodb-storage:/data/db
     networks:
@@ -29,9 +32,16 @@ volumes:
   mongodb-storage:
     name: mongodb-storage
 
+#connection to external network
 networks:
   yinyang-network:
     external: true
+
+
+
+
+
+
 
 
 
