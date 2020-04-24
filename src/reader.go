@@ -71,9 +71,9 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	go func() {
 		var err error
 		if jsonInterface["type"] == "session" {
-			err = dbConfig.Insert("sessionp", jsonInterface)
+			err = dbConfig.Insert("record", jsonInterface)
 		} else if jsonInterface["type"] == "event" {
-			err = dbConfig.Insert("subSessionx", jsonInterface)
+			err = dbConfig.Insert("subRecord", jsonInterface)
 		}
 		if err == nil {
 			kafka.Commit(reader, message)
