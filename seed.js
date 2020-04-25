@@ -1,13 +1,3 @@
-db.test.insertMany([
-  {
-    _id: 1,
-    name: 'Tensor',
-    age: 6
-  },
-  {
-    _id: 2,
-    name: 'Flow',
-    age: 10
-  }
-])
-console.log("query executed..................................................................................................................................");
+db.record.createIndex({"sid":1} ,{unique:true}) 
+db.record.createIndex({"createdAt":1} ,{unique:false})
+db.subRecord.createIndex({"sid":1} ,{unique:false})
