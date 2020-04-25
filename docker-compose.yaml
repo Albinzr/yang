@@ -14,10 +14,13 @@ services:
 
 #mongodb server
   mongodb:
-    image: mongo:latest
+    build:
+      context: .
+      dockerfile: mongodb.dockerfile
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: beacon
     ports:
       - 27017:27017
     expose:
@@ -27,8 +30,9 @@ services:
     networks:
       - yinyang-network
     container_name: mongo-container 
-    logging:
-      driver: none
+    # logging:
+    #   driver: none
+
 
 #mongodb volume
 volumes:
