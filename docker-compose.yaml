@@ -26,7 +26,7 @@ services:
     expose:
     - "27017"
     volumes:
-      - mongodb-storage:/docker-entrypoint-initdb.d/seed.js
+      - ./seed.js:/docker-entrypoint-initdb.d/seed.js:ro
       - mongodb-storage:/data/db
     networks:
       - yinyang-network
