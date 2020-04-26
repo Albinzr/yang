@@ -75,6 +75,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		} else if jsonInterface["type"] == "event" {
 			err = dbConfig.Insert("subRecord", jsonInterface)
 		}
+		fmt.Print(".")
 		if err == nil {
 			kafka.Commit(reader, message)
 		} else {
