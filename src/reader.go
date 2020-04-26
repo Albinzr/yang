@@ -56,7 +56,7 @@ func readFromKafka() {
 	if err != nil {
 		util.LogError("Kafka connection issue", err)
 		//if error try after (T) sec
-		time.AfterFunc(30*time.Second, readFromKafka)
+		time.AfterFunc(5*time.Second, readFromKafka)
 	}
 	util.LogInfo("Starting reading message from kafka")
 
@@ -64,18 +64,20 @@ func readFromKafka() {
 }
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
+	go func() {
+		msgBytes := message.Value
+		var jsonInterface map[string]interface{}
+		json.Unmarshal([]byte(msgBytes), &jsonInterface)
+		var err error
+		if jsonInterface["type"] == "session" {
+			err = dbConfig.Insert("record", jsonInterface)
+		} else if jsonInterface["type"] == "event" {
+			err = dbConfig.Insert("subRecord", jsonInterface)
+		}
+		fmt.Print(".")
+		go commitKafkaMessage(err, reader, message)
+	}()
 
-	msgBytes := message.Value
-	var jsonInterface map[string]interface{}
-	json.Unmarshal([]byte(msgBytes), &jsonInterface)
-	var err error
-	if jsonInterface["type"] == "session" {
-		err = dbConfig.Insert("record", jsonInterface)
-	} else if jsonInterface["type"] == "event" {
-		err = dbConfig.Insert("subRecord", jsonInterface)
-	}
-	fmt.Print(".")
-	go commitKafkaMessage(err, reader, message)
 }
 
 func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
