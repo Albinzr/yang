@@ -87,7 +87,7 @@ func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
 		kafka.Commit(reader, message)
 	} else {
 		//TODO: - if duplicare remove else set up a retry system (3 times) then delete
-		fmt.Println("err-------->", err)
+		// fmt.Println("err-------->", err)
 		kafka.Commit(reader, message)
 	}
 }

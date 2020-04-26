@@ -36,11 +36,11 @@ func (c *Config) Init() error {
 
 //Insert :-  database insert
 func (c *Config) Insert(collectionName string, jsonInterface map[string]interface{}) error {
-	startTime := time.Now().Nanosecond()
+	startTime := time.Now().Second()
 	_, err := c.database.Collection(collectionName).InsertOne(c.ctx, jsonInterface)
-	endTime := time.Now().Nanosecond()
+	endTime := time.Now().Second()
 
-	util.LogInfo("time taken for query:", startTime-endTime)
+	util.LogInfo("time taken for query:", endTime-startTime)
 	return err
 }
 
