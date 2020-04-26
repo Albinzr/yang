@@ -65,7 +65,6 @@ func readFromKafka() {
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	go func() {
-		startTime := time.Now().Nanosecond()
 		msgBytes := message.Value
 		var jsonInterface map[string]interface{}
 		json.Unmarshal([]byte(msgBytes), &jsonInterface)
@@ -77,8 +76,6 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		}
 		fmt.Print(".")
 		go commitKafkaMessage(err, reader, message)
-		endTime := time.Now().Nanosecond()
-		util.LogInfo("time taken for callback:", endTime-startTime)
 	}()
 }
 
