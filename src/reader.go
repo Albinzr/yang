@@ -77,11 +77,11 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		}
 		fmt.Print(".")
 		if err == nil {
-			kafka.Commit(reader, message)
+			go kafka.Commit(reader, message)
 		} else {
 			//TODO: - if duplicare remove else set up a retry system (3 times) then delete
 			fmt.Println("err-------->", err)
-			kafka.Commit(reader, message)
+			go kafka.Commit(reader, message)
 		}
 	}()
 }
