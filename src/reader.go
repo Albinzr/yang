@@ -64,11 +64,13 @@ func readFromKafka() {
 }
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
-	msgBytes := message.Value
-	var jsonInterface map[string]interface{}
-	json.Unmarshal([]byte(msgBytes), &jsonInterface)
-	delete(jsonInterface, "_id")
 	go func() {
+		msgBytes := message.Value
+		var jsonInterface map[string]interface{}
+		json.Unmarshal([]byte(msgBytes), &jsonInterface)
+		//TODO: - remove the bellow _id line this is only for testing
+		delete(jsonInterface, "_id")
+
 		var err error
 		if jsonInterface["type"] == "session" {
 			err = dbConfig.Insert("record", jsonInterface)
@@ -76,14 +78,18 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 			err = dbConfig.Insert("subRecord", jsonInterface)
 		}
 		fmt.Print(".")
-		if err == nil {
-			go kafka.Commit(reader, message)
-		} else {
-			//TODO: - if duplicare remove else set up a retry system (3 times) then delete
-			fmt.Println("err-------->", err)
-			go kafka.Commit(reader, message)
-		}
+		go commitKafkaMessage(err, reader, message)
 	}()
+}
+
+func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
+	if err == nil {
+		kafka.Commit(reader, message)
+	} else {
+		//TODO: - if duplicare remove else set up a retry system (3 times) then delete
+		fmt.Println("err-------->", err)
+		kafka.Commit(reader, message)
+	}
 }
 
 func startKafka() error {
