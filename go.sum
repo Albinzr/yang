@@ -1,5 +1,5 @@
-github.com/Albinzr/kafkaGo v0.0.5 h1:CXYwdqLBs0UADVWlqtWX0J0Ec0bv4+orTRIxTpNUUf4=
-github.com/Albinzr/kafkaGo v0.0.5/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
+github.com/Albinzr/kafkaGo v0.0.6 h1:T+RmoJTTV1aDOR+3mn7WVYqH2WYJQ9ghOGVAVAbYdFM=
+github.com/Albinzr/kafkaGo v0.0.6/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/DataDog/zstd v1.4.0 h1:vhoV+DUHnRZdKW1i5UMjAk2G4JY8wN4ayRfYDNdEhwo=
 github.com/DataDog/zstd v1.4.0/go.mod h1:1jcaCB/ufaK+sKp1NBhlGmpz41jOoPQ35bpF36t7BBo=
