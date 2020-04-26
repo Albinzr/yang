@@ -68,9 +68,6 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		msgBytes := message.Value
 		var jsonInterface map[string]interface{}
 		json.Unmarshal([]byte(msgBytes), &jsonInterface)
-		//TODO: - remove the bellow _id line this is only for testing
-		delete(jsonInterface, "_id")
-
 		var err error
 		if jsonInterface["type"] == "session" {
 			err = dbConfig.Insert("record", jsonInterface)
