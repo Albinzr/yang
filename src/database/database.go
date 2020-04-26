@@ -3,9 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"time"
 
-	util "applytics.in/yang/src/helpers"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -36,11 +34,11 @@ func (c *Config) Init() error {
 
 //Insert :-  database insert
 func (c *Config) Insert(collectionName string, jsonInterface map[string]interface{}) error {
-	startTime := time.Now().Nanosecond()
+	// startTime := time.Now().Nanosecond()
 	_, err := c.database.Collection(collectionName).InsertOne(c.ctx, jsonInterface)
-	endTime := time.Now().Nanosecond()
+	// endTime := time.Now().Nanosecond()
 
-	util.LogInfo("time taken for query:", endTime-startTime)
+	// util.LogInfo("time taken for query:", endTime-startTime)
 	return err
 }
 

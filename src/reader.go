@@ -60,23 +60,22 @@ func readFromKafka() {
 	}
 	util.LogInfo("Starting reading message from kafka")
 
-	kafkaConfig.Reader(kafkaReaderCallback)
+	go kafkaConfig.Reader(kafkaReaderCallback)
 }
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
-	go func() {
-		msgBytes := message.Value
-		var jsonInterface map[string]interface{}
-		json.Unmarshal([]byte(msgBytes), &jsonInterface)
-		var err error
-		if jsonInterface["type"] == "session" {
-			err = dbConfig.Insert("record", jsonInterface)
-		} else if jsonInterface["type"] == "event" {
-			err = dbConfig.Insert("subRecord", jsonInterface)
-		}
-		fmt.Print(".")
-		go commitKafkaMessage(err, reader, message)
-	}()
+
+	msgBytes := message.Value
+	var jsonInterface map[string]interface{}
+	json.Unmarshal([]byte(msgBytes), &jsonInterface)
+	var err error
+	if jsonInterface["type"] == "session" {
+		err = dbConfig.Insert("record", jsonInterface)
+	} else if jsonInterface["type"] == "event" {
+		err = dbConfig.Insert("subRecord", jsonInterface)
+	}
+	fmt.Print(".")
+	go commitKafkaMessage(err, reader, message)
 }
 
 func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
