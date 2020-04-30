@@ -79,8 +79,9 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("record", jsonInterface)
 	} else if jsonInterface["type"] == "event" {
 		err = dbConfig.Insert("subRecord", jsonInterface)
+	} else {
+		util.LogInfo("wrong data detected ******************************")
 	}
-
 	commitKafkaMessage(err, reader, message)
 	// }()
 
