@@ -79,6 +79,9 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("record", jsonInterface)
 	} else if jsonInterface["type"] == "event" {
 		err = dbConfig.Insert("subRecord", jsonInterface)
+	} else if jsonInterface["type"] == "snapshot" {
+		util.LogInfo("recived snapshpt*****************************************************************")
+		err = dbConfig.Insert("snapshot", jsonInterface)
 	} else {
 		util.LogInfo("wrong data detected ******************************", string(msgBytes))
 	}
