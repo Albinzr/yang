@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -35,6 +36,9 @@ func (c *Config) Init() error {
 //Insert :-  database insert
 func (c *Config) Insert(collectionName string, jsonInterface map[string]interface{}) error {
 	// startTime := time.Now().Nanosecond()
+	if jsonInterface["index"] == 0 {
+		LogError("index recived from kakfa", errors.New("Cannot connect to kafka"))
+	}
 	_, err := c.database.Collection(collectionName).InsertOne(c.ctx, jsonInterface)
 	// endTime := time.Now().Nanosecond()
 
