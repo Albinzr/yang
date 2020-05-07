@@ -58,7 +58,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 
 	searchQuery := bson.D{
 		primitive.E{Key: "sid", Value: sid},
-		primitive.E{Key: "aid", Value: aid},
+		// primitive.E{Key: "aid", Value: aid},
 	}
 
 	updataData := bson.D{
@@ -75,6 +75,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	fmt.Println(updataData)
 
 	result, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println("test..........................", result, err)
+	fmt.Println("test..........................", result, err, "-------------------", result.UpsertedID)
 	return err
 }
