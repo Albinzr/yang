@@ -81,7 +81,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("subRecord", jsonInterface)
 	} else if jsonInterface["type"] == "close" {
 		util.LogInfo(jsonInterface, "*************************")
-		dbConfig.UpdateSession("record", jsonInterface)
+		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
 		util.LogInfo("wrong data detected ******************************", string(msgBytes))
 	}
