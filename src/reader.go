@@ -79,7 +79,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("record", jsonInterface)
 	} else if jsonInterface["type"] == "event" {
 		err = dbConfig.Insert("subRecord", jsonInterface)
-	} else if jsonInterface["status"] == "close" {
+	} else if jsonInterface["type"] == "close" {
 		dbConfig.UpdateSession("record", jsonInterface)
 	} else {
 		util.LogInfo("wrong data detected ******************************", string(msgBytes))
