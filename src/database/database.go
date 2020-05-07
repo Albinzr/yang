@@ -70,6 +70,10 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		},
 	}
 
+	fmt.Println(sid, aid, ip, endTime)
+	fmt.Println(searchQuery)
+	fmt.Println(updataData)
+
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
 
 	return err
