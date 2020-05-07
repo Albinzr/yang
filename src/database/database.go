@@ -2,9 +2,10 @@ package database
 
 import (
 	"context"
-	"errors"
 	"fmt"
 
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -35,14 +36,7 @@ func (c *Config) Init() error {
 
 //Insert :-  database insert
 func (c *Config) Insert(collectionName string, jsonInterface map[string]interface{}) error {
-	// startTime := time.Now().Nanosecond()
-	if jsonInterface["index"] == 0 {
-		LogError("index recived from kakfa", errors.New("Cannot connect to kafka"))
-	}
 	_, err := c.database.Collection(collectionName).InsertOne(c.ctx, jsonInterface)
-	// endTime := time.Now().Nanosecond()
-
-	// util.LogInfo("time taken for query:", endTime-startTime)
 	return err
 }
 
@@ -52,4 +46,31 @@ func LogError(message string, errorData error) {
 		fmt.Println(message+"-Error", "............", errorData)
 		return
 	}
+}
+
+//UpdateSession :-  database insert
+func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
+
+	sid := jsonInterface["sid"]
+	aid := jsonInterface["aid"]
+	ip := jsonInterface["ip"]
+	endTime := jsonInterface["endTime"]
+
+	searchQuery := bson.D{
+		primitive.E{Key: "sid", Value: sid},
+		primitive.E{Key: "aid", Value: aid},
+	}
+
+	updataData := bson.D{
+		primitive.E{Key: "$set",
+			Value: bson.D{
+				primitive.E{Key: "ip", Value: ip},
+				primitive.E{Key: "endTime", Value: endTime},
+			},
+		},
+	}
+
+	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
+
+	return err
 }
