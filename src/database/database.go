@@ -50,26 +50,21 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-	fmt.Println(jsonInterface, "****************************")
+
 	sid := jsonInterface["sid"]
-	// aid := jsonInterface["aid"]
 	ip := jsonInterface["ip"]
-	endTime := jsonInterface["endTime"].(float64)
+
+	endTime := int64(jsonInterface["endTime"].(float64))
 
 	searchQuery := bson.D{
-		// primitive.E{Key: "$and",
-		// Value: bson.A{
 		primitive.E{Key: "sid", Value: sid},
-		// primitive.E{Key: "aid", Value: aid},
-		// },
-		// },
 	}
 
 	updataData := bson.D{
 		primitive.E{Key: "$set",
 			Value: bson.D{
 				primitive.E{Key: "ip", Value: ip},
-				primitive.E{Key: "endTime", Value: int64(endTime)},
+				primitive.E{Key: "endTime", Value: endTime},
 			},
 		},
 	}
@@ -78,6 +73,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	fmt.Println(updataData)
 
 	result, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println("test..........................", result, err)
+	fmt.Println("test..........................", result, err, "-------------------", result.UpsertedID)
 	return err
 }
