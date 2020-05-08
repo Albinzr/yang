@@ -69,16 +69,15 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "$set",
 			Value: bson.D{
 				primitive.E{Key: "ip", Value: ip},
-				primitive.E{Key: "endTime", Value: int64(endTime)},
+				primitive.E{Key: "endTime", Value: string(int64(endTime))},
 			},
 		},
 	}
 
-	fmt.Println(sid, aid, ip, endTime)
 	fmt.Println(searchQuery)
 	fmt.Println(updataData)
 
 	result, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println("test..........................", result, err, "-------------------", result.UpsertedID)
+	fmt.Println("test..........................", result, err)
 	return err
 }
