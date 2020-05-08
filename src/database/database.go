@@ -50,7 +50,7 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-
+	fmt.Println(jsonInterface, "****************************")
 	sid := jsonInterface["sid"]
 	aid := jsonInterface["aid"]
 	ip := jsonInterface["ip"]
@@ -69,7 +69,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "$set",
 			Value: bson.D{
 				primitive.E{Key: "ip", Value: ip},
-				primitive.E{Key: "endTime", Value: string(int64(endTime))},
+				primitive.E{Key: "endTime", Value: int64(endTime)},
 			},
 		},
 	}
