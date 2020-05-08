@@ -72,7 +72,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	fmt.Println(searchQuery)
 	fmt.Println(updataData)
 
-	result, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println("test..........................", result, err, "-------------------", result.UpsertedID)
+	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
 	return err
 }
