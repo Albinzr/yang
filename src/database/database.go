@@ -52,7 +52,7 @@ func LogError(message string, errorData error) {
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
 	fmt.Println(jsonInterface, "****************************")
 	sid := jsonInterface["sid"]
-	aid := jsonInterface["aid"]
+	// aid := jsonInterface["aid"]
 	ip := jsonInterface["ip"]
 	endTime := jsonInterface["endTime"].(float64)
 
