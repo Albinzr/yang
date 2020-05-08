@@ -56,9 +56,18 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	ip := jsonInterface["ip"]
 	endTime := jsonInterface["endTime"]
 
+	// searchQuery := bson.D{
+	// 	primitive.E{Key: "sid", Value: sid},
+	// 	// primitive.E{Key: "aid", Value: aid},
+	// }
+
 	searchQuery := bson.D{
-		primitive.E{Key: "sid", Value: sid},
-		// primitive.E{Key: "aid", Value: aid},
+		primitive.E{Key: "$and",
+			Value: bson.A{
+				primitive.E{Key: "sid", Value: sid},
+				primitive.E{Key: "aid", Value: aid},
+			},
+		},
 	}
 
 	updataData := bson.D{
