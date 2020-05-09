@@ -31,8 +31,7 @@ services:
     networks:
       - yinyang-network
     container_name: mongo-container 
-    # logging:
-    #   driver: none
+
 
 
 #mongodb volume

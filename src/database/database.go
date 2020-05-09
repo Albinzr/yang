@@ -50,7 +50,7 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-
+	//TODO: - add sid and aid in search query connectinusing $and
 	sid := jsonInterface["sid"]
 	ip := jsonInterface["ip"]
 
