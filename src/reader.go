@@ -66,7 +66,6 @@ func readFromKafka() {
 //each msg enter this func
 //each time a gorutine is creater
 //for commit also eachtime a gorutine is created
-
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	// go func() {
 
