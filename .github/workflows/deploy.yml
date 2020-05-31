@@ -20,7 +20,6 @@ jobs:
     - name: Tag image
       run:  docker tag yang-image gcr.io/applytics/yang-image 
       
-      
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
@@ -46,7 +45,6 @@ jobs:
       with:
         source: "docker-compose-production.yaml, mongodb.dockerfile, seed.js"
         target: "yang"
-
 
     - name: ssh to instance
       uses: appleboy/ssh-action@master
