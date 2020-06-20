@@ -10,6 +10,7 @@ import (
 	util "applytics.in/yang/src/helpers"
 
 	kafka "github.com/Albinzr/kafkaGo"
+	lz "github.com/Albinzr/lzGo"
 )
 
 var env = util.LoadEnvConfig()
@@ -69,10 +70,14 @@ func readFromKafka() {
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	// go func() {
 
-	msgBytes := message.Value
+	enMsg := string(message.Value)
+	deMsg, err := lz.DecompressFromBase64(enMsg)
+	if err != nil || enMsg == "" {
+		fmt.Println("decomperssion failed*********************************")
+	}
+
 	var jsonInterface map[string]interface{}
-	json.Unmarshal([]byte(msgBytes), &jsonInterface)
-	var err error
+	json.Unmarshal([]byte(deMsg), &jsonInterface)
 	if jsonInterface["type"] == "session" {
 		fmt.Println("this is session")
 		err = dbConfig.Insert("record", jsonInterface)
@@ -82,7 +87,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		util.LogInfo(jsonInterface, "************************* Closed")
 		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
-		util.LogInfo("wrong data detected _______________________________________", string(msgBytes))
+		util.LogInfo("wrong data detected _______________________________________")
 	}
 	commitKafkaMessage(err, reader, message)
 	// }()
