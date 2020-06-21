@@ -80,6 +80,8 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	}
 
 	var jsonInterface map[string]interface{}
+	fmt.Println(jsonInterface["type"])
+	fmt.Println(jsonInterface)
 	json.Unmarshal([]byte(msg), &jsonInterface)
 	if jsonInterface["type"] == "session" {
 		fmt.Println("this is session")
@@ -90,7 +92,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		util.LogInfo(jsonInterface, "************************* Closed")
 		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
-		util.LogInfo("wrong data detected _______________________________________",jsonInterface["type"], enMsg)
+		util.LogInfo("wrong data detected _______________________________________",jsonInterface["type"])
 	}
 	commitKafkaMessage(err, reader, message)
 
