@@ -90,7 +90,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		util.LogInfo(jsonInterface, "************************* Closed")
 		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
-		util.LogInfo("wrong data detected _______________________________________", enMsg)
+		util.LogInfo("wrong data detected _______________________________________",jsonInterface["type"], enMsg)
 	}
 	commitKafkaMessage(err, reader, message)
 
