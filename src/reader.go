@@ -64,20 +64,23 @@ func readFromKafka() {
 	kafkaConfig.Reader(kafkaReaderCallback)
 }
 
-//each msg enter this func
-//each time a gorutine is creater
-//for commit also eachtime a gorutine is created
+
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
-	// go func() {
 
 	enMsg := string(message.Value)
-	deMsg, err := lz.DecompressFromBase64(enMsg)
-	if err != nil || enMsg == "" {
-		fmt.Println("decomperssion failed*********************************")
+	var err error
+	var msg string
+	if enMsg[0:1] == "en"{
+		msg, err = lz.DecompressFromBase64(enMsg[3:])
+		if err != nil || enMsg == "" {
+			fmt.Println("decomperssion failed*********************************")
+		}
+	}else{
+		msg = enMsg[3:]
 	}
 
 	var jsonInterface map[string]interface{}
-	json.Unmarshal([]byte(deMsg), &jsonInterface)
+	json.Unmarshal([]byte(msg), &jsonInterface)
 	if jsonInterface["type"] == "session" {
 		fmt.Println("this is session")
 		err = dbConfig.Insert("record", jsonInterface)
@@ -87,10 +90,10 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		util.LogInfo(jsonInterface, "************************* Closed")
 		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
-		util.LogInfo("wrong data detected _______________________________________")
+		util.LogInfo("wrong data detected _______________________________________", deMsg[0:100])
 	}
 	commitKafkaMessage(err, reader, message)
-	// }()
+
 
 }
 
