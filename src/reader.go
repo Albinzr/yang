@@ -84,7 +84,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	var jsonInterface map[string]interface{}
 	json.Unmarshal([]byte(msg), &jsonInterface)//error
 
-	util.LogInfo(jsonInterface["typs"])
+	util.LogInfo(jsonInterface["type"])
 
 	if jsonInterface["type"] == nil{
 		util.LogInfo("*****************************JSON FAILED**************************")
