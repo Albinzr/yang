@@ -1,6 +1,7 @@
 package reader
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
@@ -80,12 +81,12 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		msg = enMsg[3:]
 	}
 
-	util.LogInfo(msg,err)
-	//
-	//var jsonInterface map[string]interface{}
-	//
-	//json.Unmarshal([]byte(msg), &jsonInterface)//error
-	//
+	var jsonInterface map[string]interface{}
+	json.Unmarshal([]byte(msg), &jsonInterface)//error
+
+	util.LogInfo(jsonInterface)
+	util.LogError("common Error",err)
+
 	//if jsonInterface["type"] == nil{
 	//	fmt.Println("*****************************JSON FAILED**************************")
 	//	fmt.Println(enMsg[0:2])
