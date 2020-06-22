@@ -81,13 +81,13 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	var jsonInterface map[string]interface{}
 
+	json.Unmarshal([]byte(msg), &jsonInterface)//error
+
 	if jsonInterface["type"] == nil{
 		fmt.Println(enMsg[0:2])
 		fmt.Println(msg)
 	}
 
-
-	json.Unmarshal([]byte(msg), &jsonInterface)//error
 	if jsonInterface["type"] == "session" {
 		fmt.Println("this is session")
 		err = dbConfig.Insert("record", jsonInterface)
