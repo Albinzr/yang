@@ -66,7 +66,7 @@ func readFromKafka() {
 
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
-
+fmt.Println(".")
 	enMsg := string(message.Value)
 	var err error
 	var msg string

@@ -68,7 +68,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 			},
 		},
 	}
-
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
 	return err
 }
