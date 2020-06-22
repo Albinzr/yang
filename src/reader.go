@@ -3,6 +3,7 @@ package reader
 import (
 	"errors"
 	"fmt"
+	lz "github.com/Albinzr/lzGo"
 	"time"
 
 	db "applytics.in/yang/src/database"
@@ -66,17 +67,19 @@ func readFromKafka() {
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	fmt.Println(".")
-	//enMsg := string(message.Value)
-	//var err error
-	//var msg string
-	//if enMsg[0:2] == "en"{
-	//	msg, err = lz.DecompressFromBase64(enMsg[3:])
-	//	if err != nil || enMsg == "" {
-	//		fmt.Println("decomperssion failed*********************************")
-	//	}
-	//}else{
-	//	msg = enMsg[3:]
-	//}
+	enMsg := string(message.Value)
+	var err error
+	var msg string
+	if enMsg[0:2] == "en"{
+		msg, err = lz.DecompressFromBase64(enMsg[3:])
+		if err != nil || enMsg == "" {
+			fmt.Println("decomperssion failed*********************************")
+		}
+	}else{
+		msg = enMsg[3:]
+	}
+
+	fmt.Println(msg)
 	//
 	//var jsonInterface map[string]interface{}
 	//
@@ -99,7 +102,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	//} else {
 	//	util.LogInfo("wrong data detected _______________________________________")
 	//}
-	//commitKafkaMessage(err, reader, message)
+	commitKafkaMessage(err, reader, message)
 
 
 }
