@@ -70,7 +70,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	enMsg := string(message.Value)
 	var err error
 	var msg string
-	if enMsg[0:1] == "en"{
+	if enMsg[0:2] == "en"{
 		msg, err = lz.DecompressFromBase64(enMsg[3:])
 		if err != nil || enMsg == "" {
 			fmt.Println("decomperssion failed*********************************")
