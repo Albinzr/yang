@@ -103,7 +103,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	//} else {
 	//	util.LogInfo("wrong data detected _______________________________________")
 	//}
-	commitKafkaMessage(err, reader, message)
+	commitKafkaMessage(nil, reader, message)
 
 
 }
