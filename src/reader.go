@@ -67,20 +67,20 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	fmt.Println(".")
 	enMsg := string(message.Value)
-	//var err error
-	//var msg string
-	//if enMsg[0:2] == "en"{
+	var err error
+	var msg string
+	if enMsg[0:2] == "en"{
 		msg, err := lz.DecompressFromBase64(enMsg[3:])
 		fmt.Println(msg, err)
-	//	if err != nil || enMsg == "" {
-	//		fmt.Println("decomperssion failed*********************************")
-	//	}
-	//	fmt.Println(msg,err)
-	//}else{
-	//	msg = enMsg[3:]
-	//}
+		if err != nil || enMsg == "" {
+			fmt.Println("decomperssion failed*********************************")
+		}
+		fmt.Println(msg,err)
+	}else{
+		msg = enMsg[3:]
+	}
 
-
+	util.LogInfo(msg,err)
 	//
 	//var jsonInterface map[string]interface{}
 	//
