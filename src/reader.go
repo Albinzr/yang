@@ -75,11 +75,12 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		if err != nil || enMsg == "" {
 			fmt.Println("decomperssion failed*********************************")
 		}
+		fmt.Println(msg,err)
 	}else{
 		msg = enMsg[3:]
 	}
 
-	fmt.Println(msg)
+
 	//
 	//var jsonInterface map[string]interface{}
 	//
