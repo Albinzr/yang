@@ -81,7 +81,8 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	var jsonInterface map[string]interface{}
 	fmt.Println(jsonInterface["type"])
-	fmt.Println(jsonInterface)
+	fmt.Println("msg: ",msg)
+	fmt.Println("json: ",jsonInterface)
 	json.Unmarshal([]byte(msg), &jsonInterface)//error
 	if jsonInterface["type"] == "session" {
 		fmt.Println("this is session")
