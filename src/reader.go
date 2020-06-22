@@ -84,8 +84,10 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	json.Unmarshal([]byte(msg), &jsonInterface)//error
 
 	if jsonInterface["type"] == nil{
+		fmt.Println("*****************************JSON FAILED**************************")
 		fmt.Println(enMsg[0:2])
 		fmt.Println(msg)
+		fmt.Println("*****************************JSON INFO END**************************")
 	}
 
 	if jsonInterface["type"] == "session" {
