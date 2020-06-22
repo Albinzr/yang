@@ -3,12 +3,13 @@ package reader
 import (
 	"errors"
 	"fmt"
+	lz "github.com/Albinzr/lzGo"
 	"time"
 
 	db "applytics.in/yang/src/database"
 	util "applytics.in/yang/src/helpers"
-
 	kafka "github.com/Albinzr/kafkaGo"
+	lz "github.com/Albinzr/lzGo"
 )
 
 var env = util.LoadEnvConfig()
@@ -71,7 +72,8 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	//var msg string
 	//if enMsg[0:2] == "en"{
 		fmt.Println("*"+enMsg[3:]+"*")
-	//	msg, err = lz.DecompressFromBase64(enMsg[3:])
+		msg, err := lz.DecompressFromBase64(enMsg[3:])
+		fmt.Println(msg, err)
 	//	if err != nil || enMsg == "" {
 	//		fmt.Println("decomperssion failed*********************************")
 	//	}
