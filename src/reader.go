@@ -3,7 +3,6 @@ package reader
 import (
 	"errors"
 	"fmt"
-	lz "github.com/Albinzr/lzGo"
 	"time"
 
 	db "applytics.in/yang/src/database"
