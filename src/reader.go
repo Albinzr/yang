@@ -1,7 +1,6 @@
 package reader
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
@@ -10,7 +9,6 @@ import (
 	util "applytics.in/yang/src/helpers"
 
 	kafka "github.com/Albinzr/kafkaGo"
-	lz "github.com/Albinzr/lzGo"
 )
 
 var env = util.LoadEnvConfig()
@@ -68,40 +66,40 @@ func readFromKafka() {
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	fmt.Println(".")
-	enMsg := string(message.Value)
-	var err error
-	var msg string
-	if enMsg[0:2] == "en"{
-		msg, err = lz.DecompressFromBase64(enMsg[3:])
-		if err != nil || enMsg == "" {
-			fmt.Println("decomperssion failed*********************************")
-		}
-	}else{
-		msg = enMsg[3:]
-	}
-
-	var jsonInterface map[string]interface{}
-
-	json.Unmarshal([]byte(msg), &jsonInterface)//error
-
-	if jsonInterface["type"] == nil{
-		fmt.Println("*****************************JSON FAILED**************************")
-		fmt.Println(enMsg[0:2])
-		fmt.Println(msg)
-		fmt.Println("*****************************JSON INFO END**************************")
-	}
-
-	if jsonInterface["type"] == "session" {
-		err = dbConfig.Insert("record", jsonInterface)
-	} else if jsonInterface["type"] == "event" {
-		err = dbConfig.Insert("subRecord", jsonInterface)
-	} else if jsonInterface["type"] == "close" {
-		util.LogInfo(jsonInterface, "************************* Closed")
-		err = dbConfig.UpdateSession("record", jsonInterface)
-	} else {
-		util.LogInfo("wrong data detected _______________________________________")
-	}
-	commitKafkaMessage(err, reader, message)
+	//enMsg := string(message.Value)
+	//var err error
+	//var msg string
+	//if enMsg[0:2] == "en"{
+	//	msg, err = lz.DecompressFromBase64(enMsg[3:])
+	//	if err != nil || enMsg == "" {
+	//		fmt.Println("decomperssion failed*********************************")
+	//	}
+	//}else{
+	//	msg = enMsg[3:]
+	//}
+	//
+	//var jsonInterface map[string]interface{}
+	//
+	//json.Unmarshal([]byte(msg), &jsonInterface)//error
+	//
+	//if jsonInterface["type"] == nil{
+	//	fmt.Println("*****************************JSON FAILED**************************")
+	//	fmt.Println(enMsg[0:2])
+	//	fmt.Println(msg)
+	//	fmt.Println("*****************************JSON INFO END**************************")
+	//}
+	//
+	//if jsonInterface["type"] == "session" {
+	//	err = dbConfig.Insert("record", jsonInterface)
+	//} else if jsonInterface["type"] == "event" {
+	//	err = dbConfig.Insert("subRecord", jsonInterface)
+	//} else if jsonInterface["type"] == "close" {
+	//	util.LogInfo(jsonInterface, "************************* Closed")
+	//	err = dbConfig.UpdateSession("record", jsonInterface)
+	//} else {
+	//	util.LogInfo("wrong data detected _______________________________________")
+	//}
+	//commitKafkaMessage(err, reader, message)
 
 
 }
