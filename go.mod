@@ -3,7 +3,7 @@ module applytics.in/yang
 go 1.13
 
 require (
-	github.com/Albinzr/kafkaGo v0.0.9
+	github.com/Albinzr/kafkaGo v1.1.1
 	github.com/Albinzr/lzGo v0.0.6
 	github.com/go-delve/delve v1.4.0 // indirect
 	github.com/joho/godotenv v1.3.0

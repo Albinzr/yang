@@ -85,9 +85,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		fmt.Println("JSON CONVERSION Failled....................................")
 	}
 
-	util.LogInfo("JSON CONVERSION******************************************TYPE: ",jsonInterface["type"])
-
-
+	util.LogInfo("TYPE:",jsonInterface["type"])
 
 	if jsonInterface["type"] == "session" {
 		err = dbConfig.Insert("record", jsonInterface)
