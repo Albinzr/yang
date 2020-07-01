@@ -60,7 +60,7 @@ func readFromKafka() {
 	}
 	util.LogInfo("Starting reading message from kafka")
 
-	kafkaConfig.ReaderWithLimit(200,kafkaReaderCallback)
+	kafkaConfig.Reader(kafkaReaderCallback)
 }
 
 
