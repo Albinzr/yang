@@ -73,7 +73,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	if enMsg[0:2] == "en"{
 		msg, err = lz.DecompressFromBase64(enMsg[3:])
 		if err != nil || enMsg == "" {
-			fmt.Println("decomperssion failed*********************************")
+			fmt.Println("decomperssion failed*------------------------------------>")
 		}
 	}else{
 		msg = enMsg[3:]
@@ -82,7 +82,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	var jsonInterface map[string]interface{}
 	json.Unmarshal([]byte(msg), &jsonInterface)//error
 
-	util.LogInfo(jsonInterface["type"],"******************************************")
+	util.LogInfo("JSON CONVERSION******************************************TYPE: ",jsonInterface["type"])
 
 
 
@@ -91,10 +91,9 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	} else if jsonInterface["type"] == "event" {
 		err = dbConfig.Insert("subRecord", jsonInterface)
 	} else if jsonInterface["type"] == "close" {
-		util.LogInfo(jsonInterface, "************************* Closed")
 		err = dbConfig.UpdateSession("record", jsonInterface)
 	} else {
-		util.LogInfo("wrong data detected _______________________________________",len(msg))
+		util.LogInfo("wrong data detected _______________********_______________",len(msg))
 	}
 	commitKafkaMessage(err, reader, message)
 
