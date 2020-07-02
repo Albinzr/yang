@@ -77,25 +77,25 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		}else{
 			msg = enMsg[3:]
 		}
-
-		var jsonInterface map[string]interface{}
-		err := json.Unmarshal([]byte(msg), &jsonInterface)
-		if err != nil {
-			fmt.Println("JSON CONVERSION Failled....................................")
-		}
-
-		util.LogInfo("TYPE:",jsonInterface["type"])
-
-		if jsonInterface["type"] == "session" {
-			err = dbConfig.Insert("record", jsonInterface)
-		} else if jsonInterface["type"] == "event" {
-			err = dbConfig.Insert("subRecord", jsonInterface)
-		} else if jsonInterface["type"] == "close" {
-			err = dbConfig.UpdateSession("record", jsonInterface)
-		} else {
-			util.LogInfo("wrong data detected _______________********_______________",len(msg))
-		}
-		commitKafkaMessage(err, reader, message)
+		//
+		//var jsonInterface map[string]interface{}
+		//err := json.Unmarshal([]byte(msg), &jsonInterface)
+		//if err != nil {
+		//	fmt.Println("JSON CONVERSION Failled....................................")
+		//}
+		//
+		//util.LogInfo("TYPE:",jsonInterface["type"])
+		//
+		//if jsonInterface["type"] == "session" {
+		//	err = dbConfig.Insert("record", jsonInterface)
+		//} else if jsonInterface["type"] == "event" {
+		//	err = dbConfig.Insert("subRecord", jsonInterface)
+		//} else if jsonInterface["type"] == "close" {
+		//	err = dbConfig.UpdateSession("record", jsonInterface)
+		//} else {
+		//	util.LogInfo("wrong data detected _______________********_______________",len(msg))
+		//}
+		//commitKafkaMessage(err, reader, message)
 
 }
 
