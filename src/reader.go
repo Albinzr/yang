@@ -1,7 +1,6 @@
 package reader
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
@@ -77,6 +76,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		}else{
 			msg = enMsg[3:]
 		}
+		util.LogInfo(len(msg))
 		//
 		//var jsonInterface map[string]interface{}
 		//err := json.Unmarshal([]byte(msg), &jsonInterface)
