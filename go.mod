@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/Albinzr/kafkaGo v1.1.5
-	github.com/Albinzr/lzGo v0.0.6
+	github.com/Albinzr/lzGo v0.0.7
 	github.com/go-delve/delve v1.4.0 // indirect
 	github.com/joho/godotenv v1.3.0
 	github.com/sirupsen/logrus v1.5.0
