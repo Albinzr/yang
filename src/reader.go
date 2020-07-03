@@ -63,6 +63,10 @@ func readFromKafka() {
 	kafkaConfig.Reader(kafkaReaderCallback)
 }
 
+func getMsg(msg string ) (string,error) {
+	return lz.DecompressFromBase64(msg)
+}
+
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
@@ -70,7 +74,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	var err error
 	var msg string
 	if enMsg[0:2] == "en"{
-		msg, err = lz.DecompressFromBase64(enMsg[3:])
+		msg, err = getMsg(enMsg[3:])
 		if err != nil || enMsg == "" {
 			fmt.Println("decomperssion failed*------------------------------------>")
 		}
