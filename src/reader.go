@@ -64,7 +64,8 @@ func readFromKafka() {
 }
 
 func getMsg(msg string ) (string,error) {
-	return lz.DecompressFromBase64(msg)
+	msg, err := lz.DecompressFromBase64(msg)
+	return msg, err
 }
 
 
