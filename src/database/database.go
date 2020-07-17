@@ -55,7 +55,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	ip := jsonInterface["ip"]
 	endTime := int64(jsonInterface["endTime"].(float64))
 
-	fmt.Println(endTime,"____________________________________________")
+	fmt.Println(jsonInterface,"____________________________________________")
 
 	searchQuery := bson.D{
 		primitive.E{Key: "sid", Value: sid},
