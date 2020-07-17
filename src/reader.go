@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"runtime"
 	"runtime/debug"
 	"time"
@@ -34,6 +37,11 @@ var dbConfig = &db.Config{
 func Start() {
 	fmt.Printf("%+v\n", kafkaConfig)
 	fmt.Printf("%+v\n", dbConfig)
+	go func() {
+		log.Fatal(http.ListenAndServe(":2000", nil))
+	}()
+
+
 
 	readFromKafkaUpdateDB()
 }
