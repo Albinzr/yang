@@ -53,7 +53,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	//TODO: - add sid and aid in search query connectinusing $and
 	sid := jsonInterface["sid"]
 	ip := jsonInterface["ip"]
-	endTime := jsonInterface["endTime"].(int64)
+	endTime := int(jsonInterface["endTime"].(float64))
 
 	fmt.Println(jsonInterface,"____________________________________________")
 
