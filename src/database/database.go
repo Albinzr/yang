@@ -65,7 +65,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "$set",
 			Value: bson.D{
 				primitive.E{Key: "ip", Value: ip},
-				primitive.E{Key: "endTime", Value: 9009},
+				primitive.E{Key: "endTime", Value: endTime},
 			},
 		},
 	}
