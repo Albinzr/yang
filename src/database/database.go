@@ -53,6 +53,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	//TODO: - add sid and aid in search query connectinusing $and
 	sid := jsonInterface["sid"]
 	ip := jsonInterface["ip"]
+	startTime := int64(jsonInterface["startTime"].(float64))
 	endTime := int64(jsonInterface["endTime"].(float64))
 
 	fmt.Println(jsonInterface,"____________________________________________")
@@ -64,6 +65,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	updataData := bson.D{
 		primitive.E{Key: "$set",
 			Value: bson.D{
+				primitive.E{Key: "createdAt",Value: startTime},
 				primitive.E{Key: "ip", Value: ip},
 				primitive.E{Key: "endTime", Value: endTime},
 			},
