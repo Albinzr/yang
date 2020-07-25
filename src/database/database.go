@@ -72,6 +72,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		},
 	}
 
+
 	fmt.Println(searchQuery)
 	fmt.Println(updataData)
 
