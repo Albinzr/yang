@@ -55,28 +55,41 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	ip := jsonInterface["ip"]
 	startTime := int64(jsonInterface["startTime"].(float64))
 	endTime := int64(jsonInterface["endTime"].(float64))
+	intial := jsonInterface["initial"].(bool)
 
-	fmt.Println(jsonInterface,"____________________________________________")
+	errorCount := int64(jsonInterface["errorCount"].(int))
+	clickCount := int64(jsonInterface["clickCount"].(int))
+	pageCount := int64(jsonInterface["pageCount"].(int))
+
+	fmt.Println(jsonInterface, "____________________________________________")
 
 	searchQuery := bson.D{
 		primitive.E{Key: "sid", Value: sid},
 	}
 
-	updataData := bson.D{
-		primitive.E{Key: "$set",
-			Value: bson.D{
-				primitive.E{Key: "startTime",Value: startTime},
-				primitive.E{Key: "ip", Value: ip},
-				primitive.E{Key: "endTime", Value: endTime},
-			},
-		},
+	 updateSet :=  bson.D{
+		primitive.E{Key: "ip", Value: ip},
+		primitive.E{Key: "endTime", Value: endTime},
+
+		primitive.E{Key: "errorCount", Value: errorCount},
+		primitive.E{Key: "clickCount", Value: clickCount},
+		primitive.E{Key: "pageCount", Value: pageCount},
 	}
 
+	if intial{
+		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
+	}
+
+	updataData := bson.D{
+		primitive.E{Key: "$set",
+			Value:updateSet,
+		},
+	}
 
 	fmt.Println(searchQuery)
 	fmt.Println(updataData)
 
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println(err,"*****")
+	fmt.Println(err, "*****")
 	return err
 }
