@@ -57,9 +57,9 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	endTime := int64(jsonInterface["endTime"].(float64))
 	intial := jsonInterface["initial"].(bool)
 
-	errorCount := int64(jsonInterface["errorCount"].(int))
-	clickCount := int64(jsonInterface["clickCount"].(int))
-	pageCount := int64(jsonInterface["pageCount"].(int))
+	errorCount := jsonInterface["errorCount"].(int)
+	clickCount := jsonInterface["clickCount"].(int)
+	pageCount := jsonInterface["pageCount"].(int)
 
 	fmt.Println(jsonInterface, "____________________________________________")
 
