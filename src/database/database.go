@@ -70,7 +70,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	 updateSet :=  bson.D{
 		primitive.E{Key: "ip", Value: ip},
 		primitive.E{Key: "endTime", Value: endTime},
-
 		primitive.E{Key: "errorCount", Value: errorCount},
 		primitive.E{Key: "clickCount", Value: clickCount},
 		primitive.E{Key: "pageCount", Value: pageCount},
