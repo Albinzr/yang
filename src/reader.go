@@ -98,20 +98,24 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	if err != nil {
 		fmt.Println("JSON CONVERSION Failled....................................")
 	}
-
 	util.LogInfo("TYPE:",jsonInterface["type"])
-
-	if jsonInterface["type"] == "session" {
+	switch jsonInterface["type"] {
+	case "session":
 		err = dbConfig.Insert("record", jsonInterface)
-	} else if jsonInterface["type"] == "event" {
+	case "event":
 		err = dbConfig.Insert("subRecord", jsonInterface)
-	} else if jsonInterface["type"] == "close" {
+	case "close":
 		err = dbConfig.UpdateSession("record", jsonInterface)
-	} else {
+	case "userInfo":
+		err = dbConfig.UpdateSession("record", jsonInterface)
+	case "track":
+		err = dbConfig.Insert("track", jsonInterface)
+	default:
 		util.LogInfo("wrong data detected _______________********_______________",len(msg))
-	}
-	commitKafkaMessage(err, reader, message)
 
+	}
+
+	commitKafkaMessage(err, reader, message)
 	printMemUsage()
 }
 

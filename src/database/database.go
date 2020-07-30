@@ -92,3 +92,44 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	fmt.Println(err, "*****")
 	return err
 }
+
+//UpdateSession :-  database insert
+func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[string]interface{}) error {
+	//TODO: - add sid and aid in search query connectinusing $and
+	sid := jsonInterface["sid"]
+	username := jsonInterface["username"]
+	id := jsonInterface["id"]
+	sex := jsonInterface["sex"]
+	age := jsonInterface["age"]
+	email := jsonInterface["email"]
+	extra := jsonInterface["extra"]
+
+
+	fmt.Println(jsonInterface, "____________________________________________USER_INFO UPDATE")
+
+	searchQuery := bson.D{
+		primitive.E{Key: "sid", Value: sid},
+	}
+
+	updateSet :=  bson.D{
+		primitive.E{Key: "username", Value: username},
+		primitive.E{Key: "id", Value: id},
+		primitive.E{Key: "sex", Value: sex},
+		primitive.E{Key: "age", Value: age},
+		primitive.E{Key: "email", Value: email},
+		primitive.E{Key: "extra", Value: extra},
+	}
+
+	updataData := bson.D{
+		primitive.E{Key: "$set",
+			Value:updateSet,
+		},
+	}
+
+	fmt.Println(searchQuery)
+	fmt.Println(updataData)
+
+	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
+	fmt.Println(err, "*****")
+	return err
+}
