@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -67,7 +68,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "sid", Value: sid},
 	}
 
-	 updateSet :=  bson.D{
+	updateSet := bson.D{
 		primitive.E{Key: "ip", Value: ip},
 		primitive.E{Key: "endTime", Value: endTime},
 		primitive.E{Key: "errorCount", Value: errorCount},
@@ -75,13 +76,13 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "pageCount", Value: pageCount},
 	}
 
-	if initial{
+	if initial {
 		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
 	}
 
 	updataData := bson.D{
 		primitive.E{Key: "$set",
-			Value:updateSet,
+			Value: updateSet,
 		},
 	}
 
@@ -96,40 +97,42 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 //UpdateSession :-  database insert
 func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[string]interface{}) error {
 	//TODO: - add sid and aid in search query connectinusing $and
-	sid := jsonInterface["sid"]
-	username := jsonInterface["username"]
-	id := jsonInterface["id"]
-	sex := jsonInterface["sex"]
-	age := jsonInterface["age"]
-	email := jsonInterface["email"]
-	extra := jsonInterface["extra"]
+	if sid := jsonInterface["sid"]; sid != nil {
+
+		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
+		updateSet := bson.D{}
+
+		if username := jsonInterface["username"]; username != nil {
+			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
+		}
+
+		if id := jsonInterface["id"]; id != nil {
+			updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
+		}
+		if sex := jsonInterface["sex"]; sex != nil {
+			updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
+		}
+		if age := jsonInterface["age"]; age != nil {
+			updateSet = append(updateSet, primitive.E{Key: "age", Value: age})
+		}
+		if email := jsonInterface["email"]; email != nil {
+			updateSet = append(updateSet, primitive.E{Key: "email", Value: email})
+		}
+		if extra := jsonInterface["extra"]; extra != nil {
+			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
+		}
 
 
-	fmt.Println(jsonInterface, "____________________________________________USER_INFO UPDATE")
+		updateData := bson.D{
+			primitive.E{Key: "$set",
+				Value: updateSet,
+			},
+		}
 
-	searchQuery := bson.D{
-		primitive.E{Key: "sid", Value: sid},
+		_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
+		fmt.Println(err, "*****")
+		return err
 	}
 
-	updateSet :=  bson.D{
-		primitive.E{Key: "username", Value: username},
-		primitive.E{Key: "id", Value: id},
-		primitive.E{Key: "sex", Value: sex},
-		primitive.E{Key: "age", Value: age},
-		primitive.E{Key: "email", Value: email},
-		primitive.E{Key: "extra", Value: extra},
-	}
-
-	updataData := bson.D{
-		primitive.E{Key: "$set",
-			Value:updateSet,
-		},
-	}
-
-	fmt.Println(searchQuery)
-	fmt.Println(updataData)
-
-	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
-	fmt.Println(err, "*****")
-	return err
+	return errors.New("sid missing")
 }
