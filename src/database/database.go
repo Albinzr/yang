@@ -51,7 +51,7 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-	//TODO: - add sid and aid in search query connectinusing $and
+	//TODO: - add sid and aid in search query connect using $and
 	sid := jsonInterface["sid"]
 	ip := jsonInterface["ip"]
 	startTime := int64(jsonInterface["startTime"].(float64))
@@ -137,7 +137,6 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 				},
 			})
 		}
-
 
 		updateData := bson.D{
 			primitive.E{Key: "$set",
