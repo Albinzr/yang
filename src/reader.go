@@ -106,13 +106,12 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("subRecord", jsonInterface)
 	case "close":
 		err = dbConfig.UpdateSession("record", jsonInterface)
-	case "userInfo":
+	case "userInfo", "update":
 		err = dbConfig.UpdateSessionUserInfo("record", jsonInterface)
 	case "track":
 		err = dbConfig.Insert("track", jsonInterface)
 	default:
 		util.LogInfo("wrong data detected _______________********_______________",len(msg))
-
 	}
 
 	commitKafkaMessage(err, reader, message)

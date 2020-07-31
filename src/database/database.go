@@ -100,10 +100,10 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.D{}
+		updateSet := bson.A{}
 
 		if username := jsonInterface["username"]; username != nil {
-			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
+			updateSet = append(updateSet, primitive.M{ "username": username})
 		}
 
 		if id := jsonInterface["id"]; id != nil {
@@ -120,6 +120,22 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		}
 		if extra := jsonInterface["extra"]; extra != nil {
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
+		}
+
+		if tag, err := jsonInterface["tag"].(string); err {
+			updateSet = append(updateSet, bson.M{
+				"$addToSet": bson.M{
+					"tags": bson.M{"$each": []string{tag}},
+				},
+			})
+		}
+
+		if url, err := jsonInterface["url"].(string); err {
+			updateSet = append(updateSet, bson.M{
+				"$addToSet": bson.M{
+					"urls": bson.M{"$each": []string{url}},
+				},
+			})
 		}
 
 
