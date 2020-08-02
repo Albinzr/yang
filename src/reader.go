@@ -35,8 +35,8 @@ var dbConfig = &db.Config{
 
 //Start :- start reader
 func Start() {
-	fmt.Printf("%+v\n", kafkaConfig)
-	fmt.Printf("%+v\n", dbConfig)
+	//fmt.Printf("%+v\n", kafkaConfig)
+	//fmt.Printf("%+v\n", dbConfig)
 	go func() {
 		log.Fatal(http.ListenAndServe(":2000", nil))
 	}()

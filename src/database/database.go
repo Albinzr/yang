@@ -78,16 +78,16 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
 	}
 
-	updataData := bson.D{
+	updateData := bson.D{
 		primitive.E{Key: "$set",
 			Value: updateSet,
 		},
 	}
 
 	fmt.Println(searchQuery)
-	fmt.Println(updataData)
+	fmt.Println(updateData)
 
-	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updataData)
+	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 	fmt.Println(err, "*****")
 	return err
 }
@@ -98,7 +98,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.A{}
+		updateSet := bson.D{}
 
 		if username := jsonInterface["username"]; username != nil {
 			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
@@ -119,22 +119,22 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		if extra := jsonInterface["extra"]; extra != nil {
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
-
-		if tag, err := jsonInterface["tag"].(string); err {
-			updateSet = append(updateSet, bson.M{
-				"$addToSet": bson.M{
-					"tags": bson.M{"$each": []string{tag}},
-				},
-			})
-		}
-
-		if url, err := jsonInterface["url"].(string); err {
-			updateSet = append(updateSet, bson.M{
-				"$addToSet": bson.M{
-					"urls": bson.M{"$each": []string{url}},
-				},
-			})
-		}
+		//
+		//if tag, err := jsonInterface["tag"].(string); err {
+		//	updateSet = append(updateSet,bson.M{
+		//		"$addToSet": bson.M{
+		//			"tags": bson.M{"$each": []string{tag}},
+		//		},
+		//	})
+		//}
+		//
+		//if url, err := jsonInterface["url"].(string); err {
+		//	updateSet = append(updateSet, bson.M{
+		//		"$addToSet": bson.M{
+		//			"urls": bson.M{"$each": []string{url}},
+		//		},
+		//	})
+		//}
 		fmt.Println("query",updateSet)
 		//updateData := bson.A{"$set", updateSet}
 
