@@ -119,14 +119,15 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		if extra := jsonInterface["extra"]; extra != nil {
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
-		//
+
 		//if tag, err := jsonInterface["tag"].(string); err {
-		//	updateSet = append(updateSet,bson.M{
+		//	updateSet = append(updateSet,bson.D{
 		//		"$addToSet": bson.M{
-		//			"tags": bson.M{"$each": []string{tag}},
+		//			"tags": tag,
 		//		},
 		//	})
 		//}
+
 		//
 		//if url, err := jsonInterface["url"].(string); err {
 		//	updateSet = append(updateSet, bson.M{
@@ -135,7 +136,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		//		},
 		//	})
 		//}
-		fmt.Println("query",updateSet)
+		fmt.Println("query",updateSet,jsonInterface)
 		//updateData := bson.A{"$set", updateSet}
 
 		updateData := bson.D{
