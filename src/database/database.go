@@ -101,7 +101,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		updateSet := bson.A{}
 
 		if username := jsonInterface["username"]; username != nil {
-			updateSet = append(updateSet, primitive.M{ "username": username})
+			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
 		}
 
 		if id := jsonInterface["id"]; id != nil {
