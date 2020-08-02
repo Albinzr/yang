@@ -138,7 +138,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 				},
 			})
 		}
-	util.LogDebug("query",updateSet)
+		util.LogDebug("query",updateSet)
 		updateData := bson.D{
 			primitive.E{Key: "$set",
 				Value: updateSet,
