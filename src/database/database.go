@@ -136,10 +136,11 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 				},
 			})
 		}
-		fmt.Println("query",updateSet,jsonInterface)
+		fmt.Println("query",updateSet,len(updateSet))
 		//updateData := bson.A{"$set", updateSet}
 
-		updateData := bson.D{
+
+			updateData := bson.D{
 			primitive.E{Key: "$set",
 				Value: updateSet,
 			},
