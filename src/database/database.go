@@ -104,7 +104,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
 		}
 
-		if id := jsonInterface["id"]; id != nil {
+		if id := jsonInterface["uuid"]; id != nil {
 			updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
 		}
 		if sex := jsonInterface["sex"]; sex != nil {
