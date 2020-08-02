@@ -120,32 +120,35 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
 
-		if tag, err := jsonInterface["tag"].(string); err {
-			updateSet = append(updateSet, bson.D{
-				{"$addToSet", bson.D{
-					{"tags", tag},
-				}},
-			},
-			)
-		}
+		//if tag, err := jsonInterface["tag"].(string); err {
+		//	updateSet = append(updateSet,bson.M{
+		//		"$addToSet": bson.M{
+		//			"tags": tag,
+		//		},
+		//	})
+		//}
+		//
+		//
+		//if url, err := jsonInterface["url"].(string); err {
+		//	updateSet = append(updateSet, bson.M{
+		//		"$addToSet": bson.M{
+		//			"urls": bson.M{"$each": []string{url}},
+		//		},
+		//	})
+		//}
 
-		if url, err := jsonInterface["url"].(string); err {
-			updateSet = append(updateSet, bson.D{
-				{"$addToSet", bson.D{
-					{"urls", url},
-				}},
-			},
-			)
-		}
-		fmt.Println("query", updateSet, len(updateSet))
 
-		updateData := bson.A{
+		fmt.Println("query",updateSet,jsonInterface,)
+		//updateData := bson.A{"$set", updateSet}
+
+
+			updateData := bson.D{
 			primitive.E{Key: "$set",
 				Value: updateSet,
 			},
 		}
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-		fmt.Println(r, "------------------")
+		fmt.Println(r,"------------------")
 		fmt.Println(err, "*****")
 		return err
 	}
