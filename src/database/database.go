@@ -1,7 +1,6 @@
 package database
 
 import (
-	util "applytics.in/yang/src/helpers"
 	"context"
 	"errors"
 	"fmt"
@@ -138,12 +137,8 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 				},
 			})
 		}
-		util.LogDebug("query",updateSet)
-		updateData := bson.A{
-			primitive.E{Key: "$set",
-				Value: updateSet,
-			},
-		}
+		fmt.Println("query",updateSet)
+		updateData := bson.A{"$set", updateSet}
 
 		_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(err, "*****")
