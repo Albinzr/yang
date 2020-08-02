@@ -115,7 +115,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	}
 
 	commitKafkaMessage(err, reader, message)
-	printMemUsage()
+	//printMemUsage()
 }
 
 func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
