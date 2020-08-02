@@ -62,8 +62,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	clickCount := int(jsonInterface["clickCount"].(float64))
 	pageCount := int(jsonInterface["pageCount"].(float64))
 
-	fmt.Println(jsonInterface, "____________________________________________")
-
 	searchQuery := bson.D{
 		primitive.E{Key: "sid", Value: sid},
 	}
@@ -138,8 +136,13 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 			})
 		}
 		fmt.Println("query",updateSet)
-		updateData := bson.A{"$set", updateSet}
+		//updateData := bson.A{"$set", updateSet}
 
+		updateData := bson.D{
+			primitive.E{Key: "$set",
+				Value: updateSet,
+			},
+		}
 		_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(err, "*****")
 		return err
