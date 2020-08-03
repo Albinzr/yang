@@ -92,63 +92,65 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	return err
 }
 
-//UpdateSession :-  database insert
+//UpdateSessionUserInfo :-  database insert
 func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[string]interface{}) error {
 	//TODO: - add sid and aid in search query connectinusing $and
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.D{}
+		updateSet := bson.A{}
 
 		if username := jsonInterface["username"]; username != nil {
-			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
+			updateSet = append(updateSet, primitive.M{"username": username})
+			// updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
 		}
-
 		if id := jsonInterface["uuid"]; id != nil {
-			updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
+			// updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
+			updateSet = append(updateSet, primitive.M{"id": id})
 		}
 		if sex := jsonInterface["sex"]; sex != nil {
-			updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
+			updateSet = append(updateSet, primitive.M{"sex": sex})
+			// updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
 		}
 		if age := jsonInterface["age"]; age != nil {
-			updateSet = append(updateSet, primitive.E{Key: "age", Value: age})
+			// updateSet = append(updateSet, primitive.E{Key: "age", Value: age})
+			updateSet = append(updateSet, primitive.M{"age": age})
 		}
 		if email := jsonInterface["email"]; email != nil {
-			updateSet = append(updateSet, primitive.E{Key: "email", Value: email})
+			// updateSet = append(updateSet, primitive.E{Key: "email", Value: email})
+			updateSet = append(updateSet, primitive.M{"email": email})
 		}
 		if extra := jsonInterface["extra"]; extra != nil {
-			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
+			// updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
+			updateSet = append(updateSet, primitive.M{"extra": extra})
 		}
 
-		//if tag, err := jsonInterface["tag"].(string); err {
-		//	updateSet = append(updateSet,bson.M{
-		//		"$addToSet": bson.M{
-		//			"tags": tag,
-		//		},
-		//	})
-		//}
-		//
-		//
-		//if url, err := jsonInterface["url"].(string); err {
-		//	updateSet = append(updateSet, bson.M{
-		//		"$addToSet": bson.M{
-		//			"urls": bson.M{"$each": []string{url}},
-		//		},
-		//	})
-		//}
+		// if tag, err := jsonInterface["tag"].(string); err {
+		// 	updateSet = append(updateSet,bson.M{
+		// 		"$addToSet": bson.M{
+		// 			"tags": tag,
+		// 		},
+		// 	})
+		// }
 
+		// if url, err := jsonInterface["url"].(string); err {
+		// 	updateSet = append(updateSet, bson.M{
+		// 		"$addToSet": bson.M{
+		// 			"urls": bson.M{"$each": []string{url}},
+		// 		},
+		// 	})
+		// }
 
-		fmt.Println("query",updateSet,jsonInterface,)
+		fmt.Println("query", updateSet, jsonInterface)
 		//updateData := bson.A{"$set", updateSet}
 
-
-			updateData := bson.D{
+		updateData := bson.D{
 			primitive.E{Key: "$set",
 				Value: updateSet,
 			},
 		}
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-		fmt.Println(r,"------------------")
+		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****")
 		return err
 	}

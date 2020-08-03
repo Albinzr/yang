@@ -2,6 +2,7 @@ github.com/Albinzr/kafkaGo v1.1.5 h1:pM41eh2o/eSxTCGnL6KRPs5mBwOzV7K63PNEGMKw3Js
 github.com/Albinzr/kafkaGo v1.1.5/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
 github.com/Albinzr/lzGo v0.0.8 h1:HKsXS9xYcwU5SU5HxgQ9sYUE2l2fbIiFzedCAEIjcvA=
 github.com/Albinzr/lzGo v0.0.8/go.mod h1:hL93umxYuDbv9lBhdCycpbLJGacTJCa44zzGgSMwjZ0=
+github.com/Albinzr/lzGo v1.0.2 h1:p8UFlHyL4JWPM9i7+DhbT4QDTLn0d4mI/Y/VVXm7hK0=
 github.com/Albinzr/lzGo v1.0.2/go.mod h1:hL93umxYuDbv9lBhdCycpbLJGacTJCa44zzGgSMwjZ0=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/DataDog/zstd v1.4.0 h1:vhoV+DUHnRZdKW1i5UMjAk2G4JY8wN4ayRfYDNdEhwo=

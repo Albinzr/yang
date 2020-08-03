@@ -41,8 +41,6 @@ func Start() {
 		log.Fatal(http.ListenAndServe(":2000", nil))
 	}()
 
-
-
 	readFromKafkaUpdateDB()
 }
 
