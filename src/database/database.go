@@ -118,7 +118,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		if extra := jsonInterface["extra"]; extra != nil {
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
-		updateSet = append(updateSet, primitive.E{Key: "$addToSet", Value: primitive.E{Key: "tags", Value: "tag"}})
+		// updateSet = append(updateSet, primitive.E{Key: "$addToSet", Value: primitive.E{Key: "tags", Value: "tag"}})
 		// if tag, err := jsonInterface["tag"].(string); err {
 		// updateSet = append(updateSet,bson.M{
 		// 	"$addToSet": bson.M{
@@ -138,11 +138,16 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		fmt.Println("query", updateSet, jsonInterface)
 		//updateData := bson.A{"$set", updateSet}
 
-		updateData := bson.D{
-			primitive.E{Key: "$set",
-				Value: updateSet,
+		updateData := bson.M{
+			"$addToSet": bson.M{
+				"tags": bson.M{"$each": []string{"camera", "electronics", "accessories"}},
 			},
 		}
+		// bson.D{
+		// 	primitive.E{Key: "$set",
+		// 		Value: updateSet,
+		// 	},
+		// }
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****")
