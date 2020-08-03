@@ -98,39 +98,33 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.A{}
+		updateSet := bson.D{}
 
 		if username := jsonInterface["username"]; username != nil {
-			updateSet = append(updateSet, primitive.M{"username": username})
-			// updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
+			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
 		}
 		if id := jsonInterface["uuid"]; id != nil {
-			// updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
-			updateSet = append(updateSet, primitive.M{"id": id})
+			updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
 		}
 		if sex := jsonInterface["sex"]; sex != nil {
-			updateSet = append(updateSet, primitive.M{"sex": sex})
-			// updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
+			updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
 		}
 		if age := jsonInterface["age"]; age != nil {
-			// updateSet = append(updateSet, primitive.E{Key: "age", Value: age})
-			updateSet = append(updateSet, primitive.M{"age": age})
+			updateSet = append(updateSet, primitive.E{Key: "age", Value: age})
 		}
 		if email := jsonInterface["email"]; email != nil {
-			// updateSet = append(updateSet, primitive.E{Key: "email", Value: email})
-			updateSet = append(updateSet, primitive.M{"email": email})
+			updateSet = append(updateSet, primitive.E{Key: "email", Value: email})
 		}
 		if extra := jsonInterface["extra"]; extra != nil {
-			// updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
-			updateSet = append(updateSet, primitive.M{"extra": extra})
+			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
-
+		updateSet = append(updateSet, primitive.E{Key: "$addToSet", Value: primitive.E{Key: "tags", Value: "tag"}})
 		// if tag, err := jsonInterface["tag"].(string); err {
-		// 	updateSet = append(updateSet,bson.M{
-		// 		"$addToSet": bson.M{
-		// 			"tags": tag,
-		// 		},
-		// 	})
+		// updateSet = append(updateSet,bson.M{
+		// 	"$addToSet": bson.M{
+		// 		"tags": tag,
+		// 	},
+		// })
 		// }
 
 		// if url, err := jsonInterface["url"].(string); err {
