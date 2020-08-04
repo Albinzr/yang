@@ -146,6 +146,19 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****")
+
+		c.database.Collection(collectionName).UpdateOne(
+			c.ctx,
+			searchQuery,
+			bson.M{
+				"$push": bson.M{
+					"tags": bson.M{
+						"$each": []string{"camera", "electronics", "accessories"},
+					},
+				},
+			},
+		)
+
 		return err
 	}
 
