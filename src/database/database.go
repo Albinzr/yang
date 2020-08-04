@@ -146,18 +146,38 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****")
+		err2 := c.UpdateSessionArrays(collectionName, jsonInterface)
+		fmt.Println(err2, "err2")
+		return err
+	}
 
-		c.database.Collection(collectionName).UpdateOne(
-			c.ctx,
-			searchQuery,
-			bson.M{
-				"$push": bson.M{
-					"tags": bson.M{
-						"$each": []string{"camera", "electronics", "accessories"},
-					},
-				},
-			},
-		)
+	return errors.New("sid missing")
+}
+
+//UpdateSessionArrays :-  database insert
+func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[string]interface{}) error {
+	//TODO: - add sid and aid in search query connectinusing $and
+	if sid := jsonInterface["sid"]; sid != nil {
+		jsonInterface["url"] = "kahjsjdkhasgdjsagdjha"
+		jsonInterface["tag"] = "jjj"
+		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
+		updateSet := bson.M{}
+
+		if tag, err := jsonInterface["tag"].(string); err {
+			updateSet["$push"] = bson.M{
+				"tags": tag,
+			}
+		}
+
+		if url, err := jsonInterface["url"].(string); err {
+			updateSet["$push"] = bson.M{
+				"url": url,
+			}
+		}
+
+		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
+		fmt.Println(r, "------------------")
+		fmt.Println(err, "*****")
 
 		return err
 	}
