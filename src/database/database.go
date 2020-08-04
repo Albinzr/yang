@@ -118,25 +118,8 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		if extra := jsonInterface["extra"]; extra != nil {
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
-		// updateSet = append(updateSet, primitive.E{Key: "$addToSet", Value: primitive.E{Key: "tags", Value: "tag"}})
-		// if tag, err := jsonInterface["tag"].(string); err {
-		// updateSet = append(updateSet,bson.M{
-		// 	"$addToSet": bson.M{
-		// 		"tags": tag,
-		// 	},
-		// })
-		// }
-
-		// if url, err := jsonInterface["url"].(string); err {
-		// 	updateSet = append(updateSet, bson.M{
-		// 		"$addToSet": bson.M{
-		// 			"urls": bson.M{"$each": []string{url}},
-		// 		},
-		// 	})
-		// }
 
 		fmt.Println("query", updateSet)
-		//updateData := bson.A{"$set", updateSet}
 
 		updateData := bson.D{
 			primitive.E{Key: "$set",
@@ -146,8 +129,6 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****")
-		err2 := c.UpdateSessionArrays(collectionName, jsonInterface)
-		fmt.Println(err2, "err2")
 		return err
 	}
 
@@ -158,8 +139,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[string]interface{}) error {
 	//TODO: - add sid and aid in search query connectinusing $and
 	if sid := jsonInterface["sid"]; sid != nil {
-		jsonInterface["url"] = "kahjsjdkhasgdjsagdjha"
-		jsonInterface["tag"] = "jjj"
+
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
 		updateSet := bson.M{}
 
@@ -177,7 +157,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 		fmt.Println(r, "------------------")
-		fmt.Println(err, "*****")
+		fmt.Println(err, "*****update_$push")
 
 		return err
 	}

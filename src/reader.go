@@ -71,23 +71,22 @@ func readFromKafka() {
 	kafkaConfig.Reader(kafkaReaderCallback)
 }
 
-func getMsg(msg string ) (string,error) {
+func getMsg(msg string) (string, error) {
 	msg, err := lz.DecompressFromBase64(msg)
 	return msg, err
 }
-
 
 func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	enMsg := string(message.Value)
 	var err error
 	var msg string
-	if enMsg[0:2] == "en"{
+	if enMsg[0:2] == "en" {
 		msg, err = getMsg(enMsg[3:])
 		if err != nil || enMsg == "" {
 			fmt.Println("decomperssion failed*------------------------------------>")
 		}
-	}else{
+	} else {
 		msg = enMsg[3:]
 	}
 
@@ -103,12 +102,14 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("subRecord", jsonInterface)
 	case "close":
 		err = dbConfig.UpdateSession("record", jsonInterface)
-	case "userInfo", "update":
+	case "userInfo":
 		err = dbConfig.UpdateSessionUserInfo("record", jsonInterface)
+	case "update":
+		err = dbConfig.UpdateSessionArrays("record", jsonInterface)
 	case "track":
 		err = dbConfig.Insert("track", jsonInterface)
 	default:
-		util.LogInfo("wrong data detected _______________********_______________",len(msg))
+		util.LogInfo("wrong data detected _______________********_______________", len(msg))
 	}
 
 	commitKafkaMessage(err, reader, message)
