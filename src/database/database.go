@@ -162,7 +162,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
-		fmt.Println(r, "------------------")
+		fmt.Println(r, "------------------,", updateSet)
 		fmt.Println(err, "*****update_$push")
 
 		return err
