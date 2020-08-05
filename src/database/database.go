@@ -150,12 +150,8 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		}
 
 		if url, err := jsonInterface["url"].(string); err {
-			updateSet["entryUrl"] = bson.M{
-				"$ifNull": []interface{}{"$entryUrl", url},
-			}
-			updateSet["$push"] = bson.M{
-				"urls": url,
-			}
+			updateSet["$ifNull"] = bson.M{"entryUrl": url}
+			updateSet["$push"] = bson.M{"urls": url}
 			updateSet["$set"] = bson.M{"exitUrl": url}
 		}
 
