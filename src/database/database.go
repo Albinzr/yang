@@ -141,6 +141,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		updateSet := bson.M{}
 
 		if tag, err := jsonInterface["tag"].(string); err {
+			return errors.New("sid missing")
 			updateSet["$push"] = bson.M{
 				"tags": tag,
 			}
