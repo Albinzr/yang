@@ -141,7 +141,6 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		updateSet := bson.M{}
 
 		if tag, err := jsonInterface["tag"].(string); err {
-			return errors.New("sid missing")
 			updateSet["$push"] = bson.M{
 				"tags": tag,
 			}
@@ -151,10 +150,9 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			updateSet["$push"] = bson.M{
 				"url": url,
 			}
-			// updateSet["$set"] = bson.M{"exitUrl": url}
+			fmt.Println(url, "________________")
 		}
-		fmt.Println(jsonInterface, "________________")
-		fmt.Println(searchQuery, "------------------")
+
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
 		fmt.Println(r, err, "*****update_$push")
