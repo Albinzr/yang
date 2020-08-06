@@ -153,7 +153,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			updateSet["$push"] = bson.M{
 				"urls": url,
 			}
-			updateSet["$set"] = bson.M{"exitUrl": url}
+			// updateSet["$set"] = bson.M{"exitUrl": url}
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
