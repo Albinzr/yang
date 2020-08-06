@@ -138,7 +138,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.M{"upsert": true}
+		updateSet := bson.M{}
 
 		if tag, err := jsonInterface["tag"].(string); err {
 			updateSet["$push"] = bson.M{
@@ -152,7 +152,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 				"exitUrl": url,
 			}
 			updateSet["$setOnInsert"] = bson.M{
-				"$entryUrl": url,
+				"entryUrl": url,
 			}
 		}
 
