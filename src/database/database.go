@@ -148,14 +148,13 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 
 		if url, err := jsonInterface["url"].(string); err {
 			updateSet["$push"] = bson.M{
-				"url": url,
+				"urls": url,
 			}
-			fmt.Println(url, "________________")
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
-		fmt.Println(r, err, "*****update_$push")
+		fmt.Println(r, err, "*****update_$push", updateSet)
 
 		return err
 	}
