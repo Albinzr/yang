@@ -150,9 +150,26 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		}
 
 		if url, err := jsonInterface["url"].(string); err {
-			updateSet["$setOnInsert"] = bson.M{"entryUrl": url}
-			updateSet["$push"] = bson.M{"urls": url}
-			updateSet["$set"] = bson.M{"exitUrl": url}
+			// updateSet["$setOnInsert"] = bson.M{"entryUrl": url}
+			// updateSet["$push"] = bson.M{"urls": url}
+			// updateSet["$set"] = bson.M{"exitUrl": url}
+
+			updateSet = bson.M{
+				"$setOnInsert": bson.M{
+					"createdat": url,
+				},
+				"$currentDate": bson.M{
+					"updatedat": true,
+				},
+				"$set": bson.M{
+					"name":       url,
+					"linenumber": url,
+				},
+				"$addToSet": bson.M{
+					"sources": url,
+				},
+			}
+
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
