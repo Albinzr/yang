@@ -119,16 +119,13 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 			updateSet = append(updateSet, primitive.E{Key: "extra", Value: extra})
 		}
 
-		fmt.Println("query", updateSet)
-
 		updateData := bson.D{
 			primitive.E{Key: "$set",
 				Value: updateSet,
 			},
 		}
-		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-		fmt.Println(r, "------------------")
-		fmt.Println(err, "*****")
+		_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
+
 		return err
 	}
 
@@ -155,10 +152,11 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 			// updateSet["$set"] = bson.M{"exitUrl": url}
 		}
-
+		fmt.Println(jsonInterface, "_______________")
+		fmt.Println(searchQuery, "------------------")
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
-		fmt.Println(r, "------------------")
-		fmt.Println(err, "*****update_$push")
+
+		fmt.Println(r, err, "*****update_$push")
 
 		return err
 	}
