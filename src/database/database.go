@@ -84,11 +84,11 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		},
 	}
 
-	fmt.Println(searchQuery)
-	fmt.Println(updateData)
-
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-	fmt.Println(err, "*****")
+
+	if err != nil {
+		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
+	}
 	return err
 }
 
@@ -152,7 +152,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 			// updateSet["$set"] = bson.M{"exitUrl": url}
 		}
-		fmt.Println(jsonInterface, "_______________")
+		fmt.Println(jsonInterface, "________________")
 		fmt.Println(searchQuery, "------------------")
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
