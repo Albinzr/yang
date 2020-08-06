@@ -104,7 +104,7 @@ func (c *Config) UpdateSessionUserInfo(collectionName string, jsonInterface map[
 			updateSet = append(updateSet, primitive.E{Key: "username", Value: username})
 		}
 		if id := jsonInterface["uuid"]; id != nil {
-			updateSet = append(updateSet, primitive.E{Key: "userId", Value: id})
+			updateSet = append(updateSet, primitive.E{Key: "id", Value: id})
 		}
 		if sex := jsonInterface["sex"]; sex != nil {
 			updateSet = append(updateSet, primitive.E{Key: "sex", Value: sex})
@@ -150,31 +150,14 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		}
 
 		if url, err := jsonInterface["url"].(string); err {
-			// updateSet["$setOnInsert"] = bson.M{"entryUrl": url}
-			updateSet["$push"] = bson.M{"urls": url}
-			// updateSet["$set"] = bson.M{"exitUrl": url}
-
-			// updateSet = bson.M{
-			// 	"$setOnInsert": bson.M{
-			// 		"createdat": url,
-			// 	},
-			// 	"$currentDate": bson.M{
-			// 		"updatedat": true,
-			// 	},
-			// 	"$set": bson.M{
-			// 		"name":       url,
-			// 		"linenumber": url,
-			// 	},
-			// 	"$addToSet": bson.M{
-			// 		"sources": url,
-			// 	},
-			// 	{ "upsert":  true },
-			// }
-
+			updateSet["$push"] = bson.M{
+				"urls": url,
+			}
+			updateSet["$set"] =  bson.M{"exitUrl": url}}
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
-		fmt.Println(r, "------------------,", updateSet)
+		fmt.Println(r, "------------------")
 		fmt.Println(err, "*****update_$push")
 
 		return err
