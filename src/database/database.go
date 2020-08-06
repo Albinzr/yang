@@ -153,6 +153,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			updateSet["$push"] = bson.M{
 				"urls": url,
 			}
+
 			// updateSet["$set"] = bson.M{"exitUrl": url}
 		}
 
