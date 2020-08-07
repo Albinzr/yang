@@ -29,14 +29,16 @@ func (c *Config) Tests() error {
 	c.database.Collection("test").InsertOne(c.ctx, m)
 
 	updateSet := bson.D{
-		// primitive.E{
-		// 	Key: "$push", Value: bson.M{
-		// 		"urls": "url://",
-		// 	},
-		// },
+		primitive.E{
+			Key: "$push", Value: primitive.E{
+				Key: "urls", Value: "url://",
+			},
+		},
 
 		primitive.E{
-			Key: "start", Value: 347263,
+			Key: "$set", Value: primitive.E{
+				Key: "name", Value: "2342344",
+			},
 		},
 	}
 
