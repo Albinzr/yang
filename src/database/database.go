@@ -24,9 +24,9 @@ type Config struct {
 // Tests :- afsdfdfdf
 func (c *Config) Tests() {
 
-	// m := make(map[string]interface{})
-	// m["kid"] = 1
-	// c.database.Collection("test").InsertOne(c.ctx, m)
+	m := make(map[string]interface{})
+	m["kid"] = 1
+	c.database.Collection("test").InsertOne(c.ctx, m)
 
 	// updateSet := bson.M{
 	// 	"$push": bson.M{
@@ -40,20 +40,20 @@ func (c *Config) Tests() {
 	// 	},
 	// }
 
-	// updateSet := bson.M{
-	// 	"$push": bson.M{
-	// 		"urls": "https://www.premagic.com/",
-	// 		"$set": bson.M{
-	// 			"entryUrl": "https://www.premagic.com/",
-	// 			"exitUrl":  "https://www.premagic.com/",
-	// 		},
-	// 	},
-	// }
-	// r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
+	updateSet := bson.M{
+		"$push": bson.M{
+			"urls": "https://www.premagic.com/",
+			"$set": bson.M{
+				"entryUrl": "https://www.premagic.com/",
+				"exitUrl":  "https://www.premagic.com/",
+			},
+		},
+	}
+	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
 
-	// fmt.Println(r, err, "*****tests..........", updateSet)
+	fmt.Println(r, err, "*****tests..........", updateSet)
 
-	// return err
+	return err
 }
 
 //Init :- initalize function
@@ -181,25 +181,33 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 		}
 
-		if url, err := jsonInterface["url"].(string); err {
+		if _, err := jsonInterface["url"].(string); err {
+
+			updateData["$push"] = bson.M{
+				"urls": "https://www.premagic.com/",
+				"$set": bson.M{
+					"entryUrl": "https://www.premagic.com/",
+					"exitUrl":  "https://www.premagic.com/",
+				},
+			}
+
 			// updateData["$push"] = bson.M{
 			// 	"tags": url,
 			// }
 
-			if _, err := jsonInterface["initial"].(bool); err {
-				fmt.Println("inside")
-				updateData["$set"] = bson.M{
-					"entryUrl": url,
-					"exitUrl":  url,
-				}
-			} else {
-				updateData["$set"] = bson.M{
-					"exitUrl": url,
-				}
-			}
+			// if _, err := jsonInterface["initial"].(bool); err {
+			// 	fmt.Println("inside")
+			// 	updateData["$set"] = bson.M{
+			// 		"entryUrl": url,
+			// 		"exitUrl":  url,
+			// 	}
+			// } else {
+			// 	updateData["$set"] = bson.M{
+			// 		"exitUrl": url,
+			// 	}
+			// }
 		}
-		k, error2 := c.database.Collection(collectionName).Find(c.ctx, searchQuery)
-		fmt.Println(k, error2)
+
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateData)
