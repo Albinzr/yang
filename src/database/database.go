@@ -51,7 +51,7 @@ func (c *Config) Tests() error {
 	}
 	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
 
-	fmt.Println(r, err, "*****update_$push", updateSet)
+	fmt.Println(r, err, "*****tests..........", updateSet)
 
 	return err
 }
@@ -173,46 +173,35 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		// updateSet := bson.M{}
+		updateSet := bson.M{}
 
-		// if tag, err := jsonInterface["tag"].(string); err {
-		// 	updateSet["$push"] = bson.M{
-		// 		"tags": tag,
-		// 	}
-		// }
+		if tag, err := jsonInterface["tag"].(string); err {
+			updateSet["$push"] = bson.M{
+				"tags": tag,
+			}
+		}
 
-		// if url, err := jsonInterface["url"].(string); err {
-		// 	updateSet["$push"] = bson.M{
-		// 		"urls": url,
-		// 	}
+		if url, err := jsonInterface["url"].(string); err {
+			updateSet["$push"] = bson.M{
+				"urls": url,
+			}
 
-		// 	if _, err := jsonInterface["initial"].(bool); err {
-		// 		updateSet["$set"] = bson.M{
-		// 			"entryUrl": url,
-		// 			"exitUrl":  url,
-		// 		}
-		// 	} else {
-		// 		updateSet["$set"] = bson.M{
-		// 			"exitUrl": url,
-		// 		}
-		// 	}
-		// }
-		updateSet := bson.D{
-			primitive.E{Key: "$push", Value: primitive.E{
-				Key: "urls", Value: "https://www.premagic.com/1"},
-			},
-			primitive.E{Key: "$set", Value: primitive.E{
-				Key: "entryUrl", Value: "https://www.premagic.com/2"},
-			},
+			if _, err := jsonInterface["initial"].(bool); err {
+				fmt.Println("inside")
+				updateSet["$set"] = bson.M{
+					"entryUrl": url,
+					"exitUrl":  url,
+				}
+			} else {
+				updateSet["$set"] = bson.M{
+					"exitUrl": url,
+				}
+			}
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
-
-		r, err = c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
-
-		fmt.Println(r, err, "*****opt")
 
 		return err
 	}
