@@ -43,10 +43,10 @@ func (c *Config) Tests() error {
 	updateSet := bson.M{
 		"$push": bson.M{
 			"urls": "https://www.premagic.com/1",
-			"$set": bson.M{
-				"entryUrl": "https://www.premagic.com/3",
-				"exitUrl":  "https://www.premagic.com/2",
-			},
+		},
+		"$set": bson.M{
+			"entryUrl": "https://www.premagic.com/3",
+			"exitUrl":  "https://www.premagic.com/2",
 		},
 	}
 	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
@@ -184,15 +184,16 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		if _, err := jsonInterface["url"].(string); err {
 
 			updateData["$push"] = bson.M{
-				"urls": "https://www.premagic.com/",
-				"$set": bson.M{
-					"entryUrl": "https://www.premagic.com/",
-					"exitUrl":  "https://www.premagic.com/",
-				},
+				"urls": "https://www.premagic.com/x",
+			}
+
+			updateData["$set"] = bson.M{
+				"entryUrl": "https://www.premagic.com/y",
+				"exitUrl":  "https://www.premagic.com/z",
 			}
 
 			// updateData["$push"] = bson.M{
-			// 	"tags": url,
+			// 	"urls": url,
 			// }
 
 			// if _, err := jsonInterface["initial"].(bool); err {
@@ -208,7 +209,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			// }
 		}
 
-		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
+		r, err := c.database.Collection(collectionName).UpdateMany(c.ctx, searchQuery, updateData)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateData)
 
