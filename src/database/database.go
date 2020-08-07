@@ -181,22 +181,22 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 		}
 
-		if _, err := jsonInterface["url"].(string); err {
+		if url, err := jsonInterface["url"].(string); err {
 			// updateData["$push"] = bson.M{
 			// 	"tags": url,
 			// }
 
-			// if _, err := jsonInterface["initial"].(bool); err {
-			// 	fmt.Println("inside")
-			// 	updateSet["$set"] = bson.M{
-			// 		"entryUrl": url,
-			// 		// "exitUrl":  url,
-			// 	}
-			// } else {
-			// 	updateSet["$set"] = bson.M{
-			// 		"exitUrl": url,
-			// 	}
-			// }
+			if _, err := jsonInterface["initial"].(bool); err {
+				fmt.Println("inside")
+				updateData["$set"] = bson.M{
+					"entryUrl": url,
+					"exitUrl":  url,
+				}
+			} else {
+				updateData["$set"] = bson.M{
+					"exitUrl": url,
+				}
+			}
 		}
 		k, error2 := c.database.Collection(collectionName).Find(c.ctx, searchQuery)
 		fmt.Println(k, error2)
