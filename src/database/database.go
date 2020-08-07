@@ -181,7 +181,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 		}
 
-		if url, err := jsonInterface["url"].(string); err {
+		if _, err := jsonInterface["url"].(string); err {
 			// updateData["$push"] = bson.M{
 			// 	"tags": url,
 			// }
