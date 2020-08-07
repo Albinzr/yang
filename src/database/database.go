@@ -42,13 +42,11 @@ func (c *Config) Tests() error {
 
 	updateSet := bson.M{
 		"$push": bson.M{
-			"bugs": 22222,
+			"urls": 22222,
 		},
 		"$set": bson.M{
-			"increment": 10,
-		},
-		"$setOnInsert": bson.M{
-			"note": "Here is another field.",
+			"entryUrl": "A",
+			"exitUrl":  "B",
 		},
 	}
 	r, err := c.database.Collection("test").UpdateMany(c.ctx, bson.M{"kid": 1}, updateSet)
