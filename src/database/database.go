@@ -173,16 +173,16 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.M{}
+		updateData := bson.M{}
 
 		if tag, err := jsonInterface["tag"].(string); err {
-			updateSet["$push"] = bson.M{
+			updateData["$push"] = bson.M{
 				"tags": tag,
 			}
 		}
 
 		if url, err := jsonInterface["url"].(string); err {
-			updateSet["$push"] = bson.M{
+			updateData["$push"] = bson.M{
 				"urls": url,
 			}
 
@@ -199,7 +199,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			// }
 		}
 
-		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
+		_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
 
