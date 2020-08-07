@@ -181,10 +181,10 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			}
 		}
 
-		if _, err := jsonInterface["url"].(string); err {
-			updateData["$push"] = bson.M{
-				"tags": "sadkjhaskdhkashkdjh",
-			}
+		if url, err := jsonInterface["url"].(string); err {
+			// updateData["$push"] = bson.M{
+			// 	"tags": url,
+			// }
 
 			// if _, err := jsonInterface["initial"].(bool); err {
 			// 	fmt.Println("inside")
