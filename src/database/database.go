@@ -28,18 +28,29 @@ func (c *Config) Tests() error {
 	m["kid"] = 1
 	c.database.Collection("test").InsertOne(c.ctx, m)
 
+	// updateSet := bson.M{
+	// 	"$push": bson.M{
+	// 		"url": "url://",
+	// 	},
+	// 	"$set": bson.M{
+	// 		"name": "2342344",
+	// 	},
+	// 	"$setOnInsert": bson.M{
+	// 		"rol": "2342344",
+	// 	},
+	// }
+
 	updateSet := bson.M{
 		"$push": bson.M{
-			"url": "url://",
+			"bugs": 22222,
 		},
-		"$set": bson.M{
-			"name": "2342344",
+		"$inc": bson.M{
+			"increment": 1,
 		},
 		"$setOnInsert": bson.M{
-			"rol": "2342344",
+			"note": "Here is another field.",
 		},
 	}
-
 	r, err := c.database.Collection("test").UpdateMany(c.ctx, bson.M{"kid": 1}, updateSet)
 
 	fmt.Println(r, err, "*****update_$push", updateSet)
