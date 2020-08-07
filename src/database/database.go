@@ -49,7 +49,7 @@ func (c *Config) Tests() error {
 			"exitUrl":  "https://www.premagic.com/",
 		},
 	}
-	r, err := c.database.Collection("test").UpdateMany(c.ctx, bson.M{"kid": 1}, updateSet)
+	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
 
 	fmt.Println(r, err, "*****update_$push", updateSet)
 
@@ -201,6 +201,10 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
+
+		r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
+
+		fmt.Println(r, err, "*****opt")
 
 		return err
 	}
