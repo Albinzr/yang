@@ -31,12 +31,12 @@ func (c *Config) Tests() error {
 	updateSet := bson.M{
 		"$push": bson.M{
 			"url": "url://",
-			"$set": bson.M{
-				"name": "2342344",
-			},
-			"$setOnInsert": bson.M{
-				"rol": "2342344",
-			},
+		},
+		"$set": bson.M{
+			"name": "2342344",
+		},
+		"$setOnInsert": bson.M{
+			"rol": "2342344",
 		},
 	}
 
