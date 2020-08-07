@@ -186,7 +186,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			log.Fatal(err)
 		}
 		var episodes []bson.M
-		if err = cursor.All(c.ctx, episodes); err != nil {
+		if err = cursor.All(c.ctx, &episodes); err != nil {
 			log.Fatal(err)
 		}
 		fmt.Println(episodes)
