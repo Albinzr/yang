@@ -197,12 +197,12 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		// 		}
 		// 	}
 		// }
-		updateSet := bson.M{
-			"$push": bson.M{
-				"urls": "https://www.premagic.com/1",
-				"$set": bson.M{
-					"entryUrl": "https://www.premagic.com/2",
-					"exitUrl":  "https://www.premagic.com/3",
+		updateSet := bson.D{
+			primitive.E{Key: "$push",Value : primitive.E{
+				Key: "urls",Value: "https://www.premagic.com/1"},
+			},
+			primitive.E{ Key: "$set",Value: primitive.E{
+					Key: "entryUrl", Value: "https://www.premagic.com/2"},
 				},
 			},
 		}
