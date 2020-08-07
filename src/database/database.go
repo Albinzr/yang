@@ -22,7 +22,7 @@ type Config struct {
 }
 
 // Tests :- afsdfdfdf
-func (c *Config) Tests() {
+func (c *Config) Tests() error {
 
 	m := make(map[string]interface{})
 	m["kid"] = 1
