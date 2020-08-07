@@ -202,7 +202,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
 
-		r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
+		r, err = c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
 
 		fmt.Println(r, err, "*****opt")
 
