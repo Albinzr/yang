@@ -189,7 +189,7 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 			if initial := jsonInterface["initial"]; initial != nil {
 				updateSet["$set"] = bson.M{
 					"entryUrl": url,
-					"exitUrl":  url,
+					// "exitUrl":  url,
 				}
 			} else {
 				updateSet["$set"] = bson.M{
