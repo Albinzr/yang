@@ -184,8 +184,19 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		}
 
 		if url, err := jsonInterface["url"].(string); err {
-			updateSet["$set"] = bson.M{
+			updateSet["$push"] = bson.M{
 				"urls": url,
+			}
+
+			if initial := jsonInterface["initial"]; initial != nil {
+				updateSet["$set"] = bson.M{
+					"entryUrl": url,
+					"exitUrl":  url,
+				}
+			} else {
+				updateSet["$set"] = bson.M{
+					"exitUrl": url,
+				}
 			}
 		}
 
@@ -195,6 +206,5 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 
 		return err
 	}
-
 	return errors.New("sid missing")
 }
