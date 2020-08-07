@@ -177,8 +177,24 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		updateData := bson.M{}
 
 		if tag, err := jsonInterface["tag"].(string); err {
+			// updateData["$push"] = bson.M{
+			// 	"tags": tag,
+			// }
+
 			updateData["$push"] = bson.M{
-				"tags": tag,
+				"urls": tag,
+			}
+
+			if _, err := jsonInterface["initial"].(bool); err {
+				fmt.Println("inside")
+				updateData["$set"] = bson.M{
+					"entryUrl": tag,
+					"exitUrl":  tag,
+				}
+			} else {
+				updateData["$set"] = bson.M{
+					"exitUrl": tag,
+				}
 			}
 		}
 		cursor, err := c.database.Collection(collectionName).Find(c.ctx, bson.M{"sid": sid})
