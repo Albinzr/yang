@@ -44,8 +44,8 @@ func (c *Config) Tests() error {
 		"$push": bson.M{
 			"bugs": 22222,
 		},
-		"$inc": bson.M{
-			"increment": 1,
+		"$set": bson.M{
+			"increment": 10,
 		},
 		"$setOnInsert": bson.M{
 			"note": "Here is another field.",
