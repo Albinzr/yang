@@ -55,6 +55,7 @@ func readFromKafkaUpdateDB() {
 	}
 
 	util.LogInfo("mongo DB connected")
+	dbConfig.Tests()
 	readFromKafka()
 }
 

@@ -21,6 +21,32 @@ type Config struct {
 	ctx      context.Context
 }
 
+// Tests :- afsdfdfdf
+func (c *Config) Tests() error {
+
+	m := make(map[string]interface{})
+	m["kid"] = 1
+	c.database.Collection("test").InsertOne(c.ctx, m)
+
+	updateSet := bson.D{
+		primitive.E{
+			Key: "$push", Value: bson.M{
+				"urls": "url://",
+			},
+		},
+
+		primitive.E{
+			Key: "start", Value: 347263,
+		},
+	}
+
+	r, err := c.database.Collection("test").UpdateMany(c.ctx, bson.M{"kid": 1}, updateSet)
+
+	fmt.Println(r, err, "*****update_$push", updateSet)
+
+	return err
+}
+
 //Init :- initalize function
 func (c *Config) Init() error {
 	var err error
