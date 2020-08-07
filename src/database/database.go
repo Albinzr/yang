@@ -42,10 +42,10 @@ func (c *Config) Tests() error {
 
 	updateSet := bson.M{
 		"$push": bson.M{
-			"urls": "https://www.premagic.com/",
+			"urls": "https://www.premagic.com/1",
 			"$set": bson.M{
-				"entryUrl": "https://www.premagic.com/",
-				"exitUrl":  "https://www.premagic.com/",
+				"entryUrl": "https://www.premagic.com/3",
+				"exitUrl":  "https://www.premagic.com/2",
 			},
 		},
 	}
