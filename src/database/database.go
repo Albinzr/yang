@@ -198,14 +198,14 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 		// 	}
 		// }
 		updateSet := bson.D{
-			primitive.E{Key: "$push",Value : primitive.E{
-				Key: "urls",Value: "https://www.premagic.com/1"},
+			primitive.E{Key: "$push", Value: primitive.E{
+				Key: "urls", Value: "https://www.premagic.com/1"},
 			},
-			primitive.E{ Key: "$set",Value: primitive.E{
-					Key: "entryUrl", Value: "https://www.premagic.com/2"},
-				},
+			primitive.E{Key: "$set", Value: primitive.E{
+				Key: "entryUrl", Value: "https://www.premagic.com/2"},
 			},
 		}
+
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
 		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
