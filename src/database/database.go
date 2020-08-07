@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -180,33 +181,42 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 				"tags": tag,
 			}
 		}
+		cursor, err := c.database.Collection(collectionName).Find(c.ctx, bson.M{"sid": sid})
+		if err != nil {
+			log.Fatal(err)
+		}
+		var episodes []bson.M
+		if err = cursor.All(c.ctx, episodes); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(episodes)
 
-		if _, err := jsonInterface["url"].(string); err {
-
-			updateData["$push"] = bson.M{
-				"urls": "https://www.premagic.com/x",
-			}
-
-			updateData["$set"] = bson.M{
-				"entryUrl": "https://www.premagic.com/y",
-				"exitUrl":  "https://www.premagic.com/z",
-			}
+		if url, err := jsonInterface["url"].(string); err {
 
 			// updateData["$push"] = bson.M{
-			// 	"urls": url,
+			// 	"urls": "https://www.premagic.com/x",
 			// }
 
-			// if _, err := jsonInterface["initial"].(bool); err {
-			// 	fmt.Println("inside")
-			// 	updateData["$set"] = bson.M{
-			// 		"entryUrl": url,
-			// 		"exitUrl":  url,
-			// 	}
-			// } else {
-			// 	updateData["$set"] = bson.M{
-			// 		"exitUrl": url,
-			// 	}
+			// updateData["$set"] = bson.M{
+			// 	"entryUrl": "https://www.premagic.com/y",
+			// 	"exitUrl":  "https://www.premagic.com/z",
 			// }
+
+			updateData["$push"] = bson.M{
+				"urls": url,
+			}
+
+			if _, err := jsonInterface["initial"].(bool); err {
+				fmt.Println("inside")
+				updateData["$set"] = bson.M{
+					"entryUrl": url,
+					"exitUrl":  url,
+				}
+			} else {
+				updateData["$set"] = bson.M{
+					"exitUrl": url,
+				}
+			}
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateMany(c.ctx, searchQuery, updateData)
