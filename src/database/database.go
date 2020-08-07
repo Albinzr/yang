@@ -173,44 +173,34 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		// updateSet := bson.M{}
+		updateSet := bson.M{}
 
-		// if tag, err := jsonInterface["tag"].(string); err {
-		// 	updateSet["$push"] = bson.M{
-		// 		"tags": tag,
-		// 	}
-		// }
+		if tag, err := jsonInterface["tag"].(string); err {
+			updateSet["$push"] = bson.M{
+				"tags": tag,
+			}
+		}
 
-		// if url, err := jsonInterface["url"].(string); err {
-		// 	updateSet["$push"] = bson.M{
-		// 		"urls": url,
-		// 	}
+		if url, err := jsonInterface["url"].(string); err {
+			updateSet["$push"] = bson.M{
+				"urls": url,
+			}
 
-		// 	if initial := jsonInterface["initial"]; initial != nil {
-		// 		updateSet["$set"] = bson.M{
-		// 			"entryUrl": url,
-		// 			// "exitUrl":  url,
-		// 		}
-		// 	} else {
-		// 		updateSet["$set"] = bson.M{
-		// 			"exitUrl": url,
-		// 		}
-		// 	}
-		// }
-
-		updateSet := bson.M{
-			"$push": bson.M{
-				"urls": 22222,
-			},
-			"$set": bson.M{
-				"entryUrl": "A",
-				"exitUrl":  "B",
-			},
+			if _, err := jsonInterface["initial"].(bool); err {
+				updateSet["$set"] = bson.M{
+					"entryUrl": url,
+					"exitUrl":  url,
+				}
+			} else {
+				updateSet["$set"] = bson.M{
+					"exitUrl": url,
+				}
+			}
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
 
-		fmt.Println(r, err, "*****update_$push", updateSet)
+		fmt.Println(r, err, "*****update_$push", searchQuery, updateSet)
 
 		return err
 	}
