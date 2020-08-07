@@ -42,11 +42,11 @@ func (c *Config) Tests() error {
 
 	updateSet := bson.M{
 		"$push": bson.M{
-			"urls": 22222,
+			"urls": "https://www.premagic.com/",
 		},
 		"$set": bson.M{
-			"entryUrl": "A",
-			"exitUrl":  "B",
+			"entryUrl": "https://www.premagic.com/",
+			"exitUrl":  "https://www.premagic.com/",
 		},
 	}
 	r, err := c.database.Collection("test").UpdateMany(c.ctx, bson.M{"kid": 1}, updateSet)
@@ -173,29 +173,39 @@ func (c *Config) UpdateSessionArrays(collectionName string, jsonInterface map[st
 	if sid := jsonInterface["sid"]; sid != nil {
 
 		searchQuery := bson.D{primitive.E{Key: "sid", Value: sid}}
-		updateSet := bson.M{}
+		// updateSet := bson.M{}
 
-		if tag, err := jsonInterface["tag"].(string); err {
-			updateSet["$push"] = bson.M{
-				"tags": tag,
-			}
-		}
+		// if tag, err := jsonInterface["tag"].(string); err {
+		// 	updateSet["$push"] = bson.M{
+		// 		"tags": tag,
+		// 	}
+		// }
 
-		if url, err := jsonInterface["url"].(string); err {
-			updateSet["$push"] = bson.M{
-				"urls": url,
-			}
+		// if url, err := jsonInterface["url"].(string); err {
+		// 	updateSet["$push"] = bson.M{
+		// 		"urls": url,
+		// 	}
 
-			if initial := jsonInterface["initial"]; initial != nil {
-				updateSet["$set"] = bson.M{
-					"entryUrl": url,
-					// "exitUrl":  url,
-				}
-			} else {
-				updateSet["$set"] = bson.M{
-					"exitUrl": url,
-				}
-			}
+		// 	if initial := jsonInterface["initial"]; initial != nil {
+		// 		updateSet["$set"] = bson.M{
+		// 			"entryUrl": url,
+		// 			// "exitUrl":  url,
+		// 		}
+		// 	} else {
+		// 		updateSet["$set"] = bson.M{
+		// 			"exitUrl": url,
+		// 		}
+		// 	}
+		// }
+
+		updateSet := bson.M{
+			"$push": bson.M{
+				"urls": 22222,
+			},
+			"$set": bson.M{
+				"entryUrl": "A",
+				"exitUrl":  "B",
+			},
 		}
 
 		r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateSet)
