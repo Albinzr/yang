@@ -118,7 +118,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 			Value: updateSet,
 		},
 	}
-
+	fmt.Println(searchQuery, updateData, "******************************")
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 	if err != nil {
