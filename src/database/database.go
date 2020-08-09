@@ -129,7 +129,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 	fmt.Println("in7")
 	if err != nil {
-		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
+		fmt.Println("cannot insert to db with search query:", searchQuery, "options", jsonInterface)
 	}
 	fmt.Println("in8")
 	return err
