@@ -21,39 +21,7 @@ type Config struct {
 }
 
 // Tests :- afsdfdfdf
-func (c *Config) Tests() error {
-
-	m := make(map[string]interface{})
-	m["kid"] = 1
-	c.database.Collection("test").InsertOne(c.ctx, m)
-
-	// updateSet := bson.M{
-	// 	"$push": bson.M{
-	// 		"url": "url://",
-	// 	},
-	// 	"$set": bson.M{
-	// 		"name": "2342344",
-	// 	},
-	// 	"$setOnInsert": bson.M{
-	// 		"rol": "2342344",
-	// 	},
-	// }
-
-	updateSet := bson.M{
-		"$push": bson.M{
-			"urls": "https://www.premagic.com/1",
-		},
-		"$set": bson.M{
-			"entryUrl": "https://www.premagic.com/3",
-			"exitUrl":  "https://www.premagic.com/2",
-		},
-	}
-	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
-
-	fmt.Println(r, err, "*****tests..........", updateSet)
-
-	return err
-}
+func (c *Config) Tests() {}
 
 //Init :- initalize function
 func (c *Config) Init() error {
@@ -86,6 +54,7 @@ func LogError(message string, errorData error) {
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
 	//TODO: - add sid and aid in search query connect using $and
+	fmt.Println(jsonInterface)
 	sid := jsonInterface["sid"]
 
 	searchQuery := bson.D{
@@ -122,7 +91,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 	if err != nil {
-		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
+		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData, "Incoming Data", jsonInterface)
 	}
 	return err
 }
