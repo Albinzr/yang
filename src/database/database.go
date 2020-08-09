@@ -51,7 +51,6 @@ func LogError(message string, errorData error) {
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
 	//TODO: - add sid and aid in search query connect using $and
-	fmt.Println(jsonInterface)
 	sid := jsonInterface["sid"]
 
 	searchQuery := bson.D{
