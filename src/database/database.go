@@ -57,37 +57,32 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		primitive.E{Key: "sid", Value: sid},
 	}
 
-	// ip := jsonInterface["ip"]
-	// startTime := int64(jsonInterface["startTime"].(float64))
-	// endTime := int64(jsonInterface["endTime"].(float64))
-	// initial := jsonInterface["initial"].(bool)
-
+	ip := jsonInterface["ip"]
+	startTime := int64(jsonInterface["startTime"].(float64))
+	endTime := int64(jsonInterface["endTime"].(float64))
+	initial := jsonInterface["initial"].(bool)
 	// errorCount := int(jsonInterface["errorCount"].(float64))
 	// clickCount := int(jsonInterface["clickCount"].(float64))
 	// pageCount := int(jsonInterface["pageCount"].(float64))
 
-	// updateSet := bson.D{
-	// 	primitive.E{Key: "ip", Value: ip},
-	// 	primitive.E{Key: "endTime", Value: endTime},
-	// 	primitive.E{Key: "errorCount", Value: errorCount},
-	// 	primitive.E{Key: "clickCount", Value: clickCount},
-	// 	primitive.E{Key: "pageCount", Value: pageCount},
-	// }
+	updateSet := bson.D{
+		primitive.E{Key: "ip", Value: ip},
+		primitive.E{Key: "endTime", Value: endTime},
+		// 	primitive.E{Key: "errorCount", Value: errorCount},
+		// 	primitive.E{Key: "clickCount", Value: clickCount},
+		// 	primitive.E{Key: "pageCount", Value: pageCount},
+	}
 
-	// if initial {
-	// 	updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
-	// }
+	if initial {
+		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
+	}
 
-	// updateData := bson.D{
-	// 	primitive.E{Key: "$set",
-	// 		Value: updateSet,
-	// 	},
-	// }
 	updateData := bson.D{
 		primitive.E{Key: "$set",
-			Value: bson.D{},
+			Value: updateSet,
 		},
 	}
+
 	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 	if err != nil {
