@@ -114,7 +114,6 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	// primitive.E{Key: "errorCount", Value: errorCount},
 	// primitive.E{Key: "clickCount", Value: clickCount},
 	// primitive.E{Key: "pageCount", Value: pageCount},
-
 	if initial {
 		fmt.Println("in4")
 		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
