@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -133,5 +132,5 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
 	}
 	fmt.Println("in8")
-	return errors.New("lll")
+	return err
 }
