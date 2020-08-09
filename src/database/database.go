@@ -6,6 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -89,44 +90,49 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	fmt.Println("albin")
 	fmt.Print(jsonInterface)
 	fmt.Println("albin")
-	//TODO: - add sid and aid in search query connect using $and
-	// sid := jsonInterface["sid"]
-	// ip := jsonInterface["ip"]
-	// startTime := int64(jsonInterface["startTime"].(float64))
-	// endTime := int64(jsonInterface["endTime"].(float64))
-	// initial := jsonInterface["initial"].(bool)
+	// TODO: - add sid and aid in search query connect using $and
+	sid := jsonInterface["sid"]
+	ip := jsonInterface["ip"]
+	startTime := int64(jsonInterface["startTime"].(float64))
+	endTime := int64(jsonInterface["endTime"].(float64))
+	fmt.Println("in0")
+	initial := jsonInterface["initial"].(bool)
 
-	// // errorCount := int(jsonInterface["errorCount"].(float64))
-	// // clickCount := int(jsonInterface["clickCount"].(float64))
-	// // pageCount := int(jsonInterface["pageCount"].(float64))
+	// errorCount := int(jsonInterface["errorCount"].(float64))
+	// clickCount := int(jsonInterface["clickCount"].(float64))
+	// pageCount := int(jsonInterface["pageCount"].(float64))
+	fmt.Println("in1")
+	searchQuery := bson.D{
+		primitive.E{Key: "sid", Value: sid},
+	}
+	fmt.Println("in2")
+	updateSet := bson.D{
+		primitive.E{Key: "ip", Value: ip},
+		primitive.E{Key: "endTime", Value: endTime},
+	}
+	fmt.Println("in3")
+	// primitive.E{Key: "errorCount", Value: errorCount},
+	// primitive.E{Key: "clickCount", Value: clickCount},
+	// primitive.E{Key: "pageCount", Value: pageCount},
 
-	// searchQuery := bson.D{
-	// 	primitive.E{Key: "sid", Value: sid},
-	// }
+	if initial {
+		fmt.Println("in4")
+		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
+	}
 
-	// updateSet := bson.D{
-	// 	primitive.E{Key: "ip", Value: ip},
-	// 	primitive.E{Key: "endTime", Value: endTime},
-	// }
-
-	// // primitive.E{Key: "errorCount", Value: errorCount},
-	// // primitive.E{Key: "clickCount", Value: clickCount},
-	// // primitive.E{Key: "pageCount", Value: pageCount},
-
-	// if initial {
-	// 	updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
-	// }
-
-	// updateData := bson.D{
-	// 	primitive.E{Key: "$set",
-	// 		Value: updateSet,
-	// 	},
-	// }
-	// fmt.Println(searchQuery, updateData, "******************************")
-	// _, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-
-	// if err != nil {
-	// 	fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
-	// }
+	fmt.Println("in5")
+	updateData := bson.D{
+		primitive.E{Key: "$set",
+			Value: updateSet,
+		},
+	}
+	fmt.Println("in6")
+	fmt.Println(searchQuery, updateData, "******************************")
+	_, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
+	fmt.Println("in7")
+	if err != nil {
+		fmt.Println("cannot insert to db with search query:", searchQuery, "options", updateData)
+	}
+	fmt.Println("in8")
 	return errors.New("lll")
 }
