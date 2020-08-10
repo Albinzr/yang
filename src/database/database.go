@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,41 +19,6 @@ type Config struct {
 	client   *mongo.Client
 	database *mongo.Database
 	ctx      context.Context
-}
-
-// Tests :- afsdfdfdf
-func (c *Config) Tests() error {
-
-	m := make(map[string]interface{})
-	m["kid"] = 1
-	c.database.Collection("test").InsertOne(c.ctx, m)
-
-	// updateSet := bson.M{
-	// 	"$push": bson.M{
-	// 		"url": "url://",
-	// 	},
-	// 	"$set": bson.M{
-	// 		"name": "2342344",
-	// 	},
-	// 	"$setOnInsert": bson.M{
-	// 		"rol": "2342344",
-	// 	},
-	// }
-
-	updateSet := bson.M{
-		"$push": bson.M{
-			"urls": "https://www.premagic.com/1",
-		},
-		"$set": bson.M{
-			"entryUrl": "https://www.premagic.com/3",
-			"exitUrl":  "https://www.premagic.com/2",
-		},
-	}
-	r, err := c.database.Collection("test").UpdateOne(c.ctx, bson.M{"kid": 1}, updateSet)
-
-	fmt.Println(r, err, "*****tests..........", updateSet)
-
-	return err
 }
 
 //Init :- initalize function
@@ -85,52 +51,133 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
+	searchQuery := bson.D{}
+	updateData := bson.D{}
+	//
+	setQuery := bson.D{}
+	pushQuery := bson.D{}
 
-	fmt.Println("albin")
-	fmt.Print(jsonInterface)
-	fmt.Println("albin")
 	// TODO: - add sid and aid in search query connect using $and
-	sid := jsonInterface["sid"]
-	ip := jsonInterface["ip"]
-	startTime := int64(jsonInterface["startTime"].(float64))
-	endTime := int64(jsonInterface["endTime"].(float64))
-	fmt.Println("in0")
-	initial := jsonInterface["initial"].(bool)
-
-	// errorCount := int(jsonInterface["errorCount"].(float64))
-	// clickCount := int(jsonInterface["clickCount"].(float64))
-	// pageCount := int(jsonInterface["pageCount"].(float64))
-	fmt.Println("in1")
-	searchQuery := bson.D{
-		primitive.E{Key: "sid", Value: sid},
+	if sid, isPresent := jsonInterface["sid"]; isPresent {
+		searchQuery = append(searchQuery, primitive.E{Key: "sid", Value: sid})
+	} else {
+		return errors.New("no sid found")
 	}
-	fmt.Println("in2")
-	updateSet := bson.D{
-		primitive.E{Key: "ip", Value: ip},
-		primitive.E{Key: "endTime", Value: endTime},
-	}
-	fmt.Println("in3")
-	// primitive.E{Key: "errorCount", Value: errorCount},
-	// primitive.E{Key: "clickCount", Value: clickCount},
-	// primitive.E{Key: "pageCount", Value: pageCount},
-	if initial {
-		fmt.Println("in4")
-		updateSet = append(updateSet, primitive.E{Key: "startTime", Value: startTime})
+	if aid, isPresent := jsonInterface["aid"]; isPresent {
+		searchQuery = append(searchQuery, primitive.E{Key: "aid", Value: aid})
+	} else {
+		return errors.New("no sid found")
 	}
 
-	fmt.Println("in5")
-	updateData := bson.D{
-		primitive.E{Key: "$set",
-			Value: updateSet,
-		},
+	if ip, isPresent := jsonInterface["ip"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "ip", Value: ip})
 	}
-	fmt.Println("in6")
+
+	if endTime, isPresent := getFloat64FromMap(jsonInterface, "endTime"); isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "endTime", Value: endTime})
+	}
+
+	if initial, isPresent := getBoolFromMap(jsonInterface, "initial"); isPresent && initial {
+		if startTime, isPresent := getFloat64FromMap(jsonInterface, "startTime"); isPresent {
+			setQuery = append(setQuery, primitive.E{Key: "startTime", Value: startTime})
+		}
+	}
+
+	if errorCount, isPresent := getIntFromMap(jsonInterface, "errorCount"); isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "errorCount", Value: errorCount})
+	}
+
+	if pageCount, isPresent := getIntFromMap(jsonInterface, "pageCount"); isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "pageCount", Value: pageCount})
+	}
+
+	if clickCount, isPresent := getIntFromMap(jsonInterface, "clickCount"); isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "clickCount", Value: clickCount})
+	}
+
+	if tag, isPresent := jsonInterface["tag"]; isPresent {
+		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: tag})
+	}
+
+	if url, isPresent := jsonInterface["url"]; isPresent {
+		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: url})
+	}
+
+	if username, isPresent := jsonInterface["username"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "username", Value: username})
+	}
+
+	if id, isPresent := jsonInterface["id"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "id", Value: id})
+	}
+
+	if sex, isPresent := jsonInterface["sex"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "sex", Value: sex})
+	}
+
+	if age, isPresent := getIntFromMap(jsonInterface, "age"); isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "age", Value: age})
+	}
+
+	if email, isPresent := jsonInterface["email"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "email", Value: email})
+	}
+
+	if initialURL, isPresent := jsonInterface["initialUrl"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "initialUrl", Value: initialURL})
+	}
+
+	if exitURL, isPresent := jsonInterface["exitUrl"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "exitUrl", Value: exitURL})
+	}
+
+	if len(setQuery) > 0 {
+		updateData = append(updateData, primitive.E{Key: "$set",
+			Value: setQuery,
+		})
+	}
+	if len(pushQuery) > 0 {
+		updateData = append(updateData, primitive.E{Key: "$push",
+			Value: pushQuery,
+		})
+	}
+
 	fmt.Println(searchQuery, updateData, "******************************")
 	r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
-	fmt.Println("in7")
+
 	if err != nil {
 		fmt.Println("cannot insert to db with search query:", searchQuery, "options", jsonInterface)
 	}
-	fmt.Println("in8", r)
+	fmt.Println("result____________________________", r)
 	return err
+}
+
+func getFloat64FromMap(items map[string]interface{}, key string) (float64, bool) {
+	if initialInterface, isPresent := items[key]; isPresent {
+		if initial, isPresent := initialInterface.(float64); isPresent {
+			return initial, true
+		}
+		return 0, false
+	}
+	return 0, false
+}
+
+func getIntFromMap(items map[string]interface{}, key string) (int, bool) {
+	if initialInterface, isPresent := items[key]; isPresent {
+		if initial, isPresent := initialInterface.(int); isPresent {
+			return initial, true
+		}
+		return 0, false
+	}
+	return 0, false
+}
+
+func getBoolFromMap(items map[string]interface{}, key string) (bool, bool) {
+	if initialInterface, isPresent := items[key]; isPresent {
+		if initial, isPresent := initialInterface.(bool); isPresent {
+			return initial, true
+		}
+		return false, false
+	}
+	return false, false
 }
