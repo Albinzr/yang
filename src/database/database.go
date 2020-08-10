@@ -123,8 +123,8 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		setQuery = append(setQuery, primitive.E{Key: "email", Value: email})
 	}
 
-	if initialURL, isPresent := jsonInterface["initialUrl"]; isPresent {
-		setQuery = append(setQuery, primitive.E{Key: "initialUrl", Value: initialURL})
+	if entryURL, isPresent := jsonInterface["entryUrl"]; isPresent {
+		setQuery = append(setQuery, primitive.E{Key: "entryUrl", Value: entryURL})
 	}
 
 	if exitURL, isPresent := jsonInterface["exitUrl"]; isPresent {
