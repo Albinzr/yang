@@ -93,15 +93,15 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		}
 	}
 
-	if errorCount, isPresent := getIntFromMap(jsonInterface, "errorCount"); isPresent {
+	if errorCount, isPresent := getFloat64FromMap(jsonInterface, "errorCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "errorCount", Value: errorCount})
 	}
 
-	if pageCount, isPresent := getIntFromMap(jsonInterface, "pageCount"); isPresent {
+	if pageCount, isPresent := getFloat64FromMap(jsonInterface, "pageCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "pageCount", Value: pageCount})
 	}
 
-	if clickCount, isPresent := getIntFromMap(jsonInterface, "clickCount"); isPresent {
+	if clickCount, isPresent := getFloat64FromMap(jsonInterface, "clickCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "clickCount", Value: clickCount})
 	}
 
