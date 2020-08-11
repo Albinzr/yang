@@ -57,6 +57,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	//
 	setQuery := bson.D{}
 	pushQuery := bson.D{}
+	incQuery := bson.D{}
 
 	// TODO: - add sid and aid in search query connect using $and
 	if sid, isPresent := jsonInterface["sid"]; isPresent {
@@ -74,13 +75,20 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		setQuery = append(setQuery, primitive.E{Key: "ip", Value: ip})
 	}
 
-	if endTime, isPresent := getFloat64FromMap(jsonInterface, "endTime"); isPresent {
-		setQuery = append(setQuery, primitive.E{Key: "endTime", Value: endTime})
-	}
-
 	if initial, isPresent := getBoolFromMap(jsonInterface, "initial"); isPresent && initial {
 		if startTime, isPresent := getFloat64FromMap(jsonInterface, "startTime"); isPresent {
 			setQuery = append(setQuery, primitive.E{Key: "startTime", Value: startTime})
+			if endTime, isPresent := getFloat64FromMap(jsonInterface, "endTime"); isPresent {
+				setQuery = append(setQuery, primitive.E{Key: "endTime", Value: endTime})
+				setQuery = append(setQuery, primitive.E{Key: "duration", Value: endTime - startTime})
+			}
+		}
+	} else {
+		if startTime, isPresent := getFloat64FromMap(jsonInterface, "startTime"); isPresent {
+			if endTime, isPresent := getFloat64FromMap(jsonInterface, "endTime"); isPresent {
+				setQuery = append(setQuery, primitive.E{Key: "endTime", Value: endTime})
+				incQuery = append(incQuery, primitive.E{Key: "duration", Value: endTime - startTime})
+			}
 		}
 	}
 
@@ -140,6 +148,12 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	if len(pushQuery) > 0 {
 		updateData = append(updateData, primitive.E{Key: "$push",
 			Value: pushQuery,
+		})
+	}
+
+	if len(incQuery) > 0 {
+		updateData = append(updateData, primitive.E{Key: "$inc",
+			Value: incQuery,
 		})
 	}
 
