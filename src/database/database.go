@@ -91,7 +91,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	if pageCount, isPresent := getIntFromMap(jsonInterface, "pageCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "pageCount", Value: pageCount})
 	}
-	fmt.Println(reflect.TypeOf(jsonInterface["clickCount"]), ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(reflect.TypeOf(jsonInterface), ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	if clickCount, isPresent := getIntFromMap(jsonInterface, "clickCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "clickCount", Value: clickCount})
 	}
