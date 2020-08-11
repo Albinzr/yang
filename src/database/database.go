@@ -99,7 +99,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: tag})
 	}
 
-	if url, isPresent := jsonInterface["url"]; isPresent {
+	if url, isPresent := jsonInterface["urls"]; isPresent {
 		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: url})
 	}
 
