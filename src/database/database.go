@@ -51,7 +51,7 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-	fmt.Println(jsonInterface, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(jsonInterface, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonInterface["pageCount"])
 	searchQuery := bson.D{}
 	updateData := bson.D{}
 	//
