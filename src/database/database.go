@@ -59,6 +59,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	setQuery := bson.D{}
 	pushQuery := bson.D{}
 	incQuery := bson.D{}
+	arrayQuery := bson.D{}
 
 	// TODO: - add sid and aid in search query connect using $and
 	if sid, isPresent := jsonInterface["sid"]; isPresent {
@@ -112,7 +113,8 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 
 	if urls, isPresent := getStringArrayFromMap(jsonInterface, "urls"); isPresent {
 		fmt.Println(urls, "----------------------------------------------------")
-		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
+
+		arrayQuery = append(arrayQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
 	}
 
 	if username, isPresent := jsonInterface["username"]; isPresent {
@@ -160,6 +162,13 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		})
 	}
 
+	if len(arrayQuery) > 0 {
+		updateData = append(updateData, primitive.E{Key: "$addToSet",
+			Value: arrayQuery,
+		})
+
+	}
+
 	fmt.Println(searchQuery, updateData, "******************************")
 	r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
@@ -201,16 +210,11 @@ func getBoolFromMap(items map[string]interface{}, key string) (bool, bool) {
 }
 
 func getStringArrayFromMap(items map[string]interface{}, key string) ([]string, bool) {
-	fmt.Println("in......................0")
 	if initialInterface, isPresent := items[key]; isPresent {
-		fmt.Println("in......................1")
 		if initial, isPresent := initialInterface.([]interface{}); isPresent {
-			fmt.Println("in......................2")
 			var result []string
 			for _, value := range initial {
-				fmt.Println("in......................loop", value)
 				if stringValue, isPresent := value.(string); isPresent {
-					fmt.Println("inValue......................loop", stringValue)
 					result = append(result, stringValue)
 				}
 			}
