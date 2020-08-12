@@ -104,18 +104,14 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	if clickCount, isPresent := getFloat64FromMap(jsonInterface, "clickCount"); isPresent {
 		setQuery = append(setQuery, primitive.E{Key: "clickCount", Value: clickCount})
 	}
-	// fmt.Println(jsonInterface["tags"], "-----------", reflect.TypeOf(jsonInterface["tags"]), "-----------", jsonInterface["tags"].([]string))
-	// if tags, isPresent := jsonInterface["tags"].([]string); isPresent {
-	// 	fmt.Println(reflect.TypeOf(tags), "----------------------------------------------------", tags)
-	// 	pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: primitive.E{Key: "$each", Value: tags}})
-	// }
 
-	fmt.Println(jsonInterface["urls"], "-----------")
-	fmt.Println(reflect.TypeOf(jsonInterface["urls"]))
-	fmt.Println("-----------", jsonInterface["urls"].([]string))
+	if tags, isPresent := getStringArrayFromMap(jsonInterface, "tags"); isPresent {
+		fmt.Println(tags, "----------------------------------------------------")
+		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: primitive.E{Key: "$each", Value: tags}})
+	}
 
-	if urls, isPresent := jsonInterface["urls"].([]string); isPresent {
-		fmt.Println(reflect.TypeOf(urls), "----------------------------------------------------", urls)
+	if urls, isPresent := getStringArrayFromMap(jsonInterface, "urls"); isPresent {
+		fmt.Println(urls, "----------------------------------------------------"s)
 		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
 	}
 
@@ -202,4 +198,20 @@ func getBoolFromMap(items map[string]interface{}, key string) (bool, bool) {
 		return false, false
 	}
 	return false, false
+}
+
+func getStringArrayFromMap(items map[string]interface{}, key string) ([]string, bool) {
+	if initialInterface, isPresent := items[key]; isPresent {
+		if initial, isPresent := initialInterface.([]interface{}); isPresent {
+			var result []string
+			for _, value := range initial {
+				if stringValue, isPresent := value.(string); isPresent {
+					result = append(result, stringValue)
+				}
+			}
+			return result, false
+		}
+		return []string{}, false
+	}
+	return []string{}, false
 }
