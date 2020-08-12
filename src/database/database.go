@@ -105,11 +105,13 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 		setQuery = append(setQuery, primitive.E{Key: "clickCount", Value: clickCount})
 	}
 
-	if tags, isPresent := jsonInterface["tags"]; isPresent {
+	if tags, isPresent := jsonInterface["tags"].([]string); isPresent {
+		fmt.Println(reflect.TypeOf(tags), "----------------------------------------------------", tags)
 		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: primitive.E{Key: "$each", Value: tags}})
 	}
 
-	if urls, isPresent := jsonInterface["urls"]; isPresent {
+	if urls, isPresent := jsonInterface["urls"].([]string); isPresent {
+		fmt.Println(reflect.TypeOf(tags), "----------------------------------------------------", tags)
 		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
 	}
 
