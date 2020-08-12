@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"reflect"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -52,7 +51,9 @@ func LogError(message string, errorData error) {
 
 //UpdateSession :-  database insert
 func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]interface{}) error {
-	fmt.Println(jsonInterface, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonInterface["pageCount"], reflect.TypeOf(jsonInterface["pageCount"]))
+	fmt.Println(">>>>>>>>>>>>>>>>>>interface>>>>>>>>>>>>>>>>>>>>>>")
+	fmt.Println(jsonInterface)
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 	searchQuery := bson.D{}
 	updateData := bson.D{}
 	//
@@ -169,7 +170,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 
 	}
 
-	fmt.Println(searchQuery, updateData, "******************************")
+	fmt.Println(updateData, "******************************update quey")
 	r, err := c.database.Collection(collectionName).UpdateOne(c.ctx, searchQuery, updateData)
 
 	if err != nil {
