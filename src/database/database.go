@@ -214,7 +214,7 @@ func getStringArrayFromMap(items map[string]interface{}, key string) ([]string, 
 					result = append(result, stringValue)
 				}
 			}
-			return result, false
+			return result, true
 		}
 		return []string{}, false
 	}
