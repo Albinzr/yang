@@ -201,10 +201,14 @@ func getBoolFromMap(items map[string]interface{}, key string) (bool, bool) {
 }
 
 func getStringArrayFromMap(items map[string]interface{}, key string) ([]string, bool) {
+	fmt.Println("in......................0")
 	if initialInterface, isPresent := items[key]; isPresent {
+		fmt.Println("in......................1")
 		if initial, isPresent := initialInterface.([]interface{}); isPresent {
+			fmt.Println("in......................2")
 			var result []string
 			for _, value := range initial {
+				fmt.Println("in......................loop", value)
 				if stringValue, isPresent := value.(string); isPresent {
 					result = append(result, stringValue)
 				}
