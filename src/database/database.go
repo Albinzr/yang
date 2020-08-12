@@ -210,6 +210,7 @@ func getStringArrayFromMap(items map[string]interface{}, key string) ([]string, 
 			for _, value := range initial {
 				fmt.Println("in......................loop", value)
 				if stringValue, isPresent := value.(string); isPresent {
+					fmt.Println("inValue......................loop", stringValue)
 					result = append(result, stringValue)
 				}
 			}
