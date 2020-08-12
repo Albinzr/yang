@@ -111,7 +111,7 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 	}
 
 	if urls, isPresent := jsonInterface["urls"].([]string); isPresent {
-		fmt.Println(reflect.TypeOf(tags), "----------------------------------------------------", tags)
+		fmt.Println(reflect.TypeOf(urls), "----------------------------------------------------", urls)
 		pushQuery = append(pushQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
 	}
 
