@@ -109,13 +109,13 @@ func (c *Config) UpdateSession(collectionName string, jsonInterface map[string]i
 
 	if tags, isPresent := getStringArrayFromMap(jsonInterface, "tags"); isPresent {
 		fmt.Println(tags, "----------------------------------------------------")
-		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: primitive.E{Key: "$each", Value: tags}})
+		pushQuery = append(pushQuery, primitive.E{Key: "tags", Value: primitive.E{Key: "$each", Value: bson.A{tags}}})
 	}
 
 	if urls, isPresent := getStringArrayFromMap(jsonInterface, "urls"); isPresent {
 		fmt.Println(urls, "----------------------------------------------------")
 
-		arrayQuery = append(arrayQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: urls}})
+		arrayQuery = append(arrayQuery, primitive.E{Key: "urls", Value: primitive.E{Key: "$each", Value: bson.A{urls}}})
 	}
 
 	if username, isPresent := jsonInterface["username"]; isPresent {
