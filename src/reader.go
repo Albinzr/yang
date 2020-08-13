@@ -112,6 +112,14 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 	// 	err = dbConfig.UpdateSessionArrays("record", jsonInterface)
 	case "track":
 		err = dbConfig.Insert("track", jsonInterface)
+	case "feedback":
+		err = dbConfig.Insert("feedback", jsonInterface)
+	case "poll":
+		err = dbConfig.Insert("poll", jsonInterface)
+	case "form":
+		err = dbConfig.Insert("form", jsonInterface)
+	case "surveys":
+		err = dbConfig.Insert("surveys", jsonInterface)
 	default:
 		util.LogInfo("wrong data detected _______________********_______________", len(msg), "incoming data", jsonInterface)
 	}
