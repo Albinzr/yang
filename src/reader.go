@@ -106,10 +106,6 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		err = dbConfig.Insert("subRecord", jsonInterface)
 	case "close":
 		err = dbConfig.UpdateSession("record", jsonInterface)
-	// case "userInfo":
-	// 	err = dbConfig.UpdateSessionUserInfo("record", jsonInterface)
-	// case "update":
-	// 	err = dbConfig.UpdateSessionArrays("record", jsonInterface)
 	case "track":
 		err = dbConfig.Insert("track", jsonInterface)
 	case "feedback":

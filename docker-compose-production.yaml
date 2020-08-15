@@ -22,6 +22,7 @@ services:
       - 27017:27017
     expose:
     - "27017"
+    
     volumes:
       - ./seed.js:/docker-entrypoint-initdb.d/seed.js:ro
       - mongodb-storage:/data/db
