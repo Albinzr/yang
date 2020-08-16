@@ -68,7 +68,16 @@ func readFromKafka() {
 	}
 	util.LogInfo("Starting reading message from kafka")
 
-	kafkaConfig.Reader(kafkaReaderCallback)
+	// kafkaConfig.Reader(kafkaReaderCallback)
+	abc()
+}
+
+func abc() {
+	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
+	defer func() {
+		abc()
+		fmt.Println("defer called...........................................................................................")
+	}()
 }
 
 func getMsg(msg string) (string, error) {
@@ -122,6 +131,7 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 
 	commitKafkaMessage(err, reader, message)
 	//printMemUsage()
+
 }
 
 func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
