@@ -39,6 +39,7 @@ github.com/Albinzr/kafkaGo v1.1.7 h1:FvmaercF4UHciC65v1OTnImP9QOuY1YqyN+jYsZ2Zak
 github.com/Albinzr/kafkaGo v1.1.7/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
 github.com/Albinzr/kafkaGo v1.1.8 h1:iNEW/o8PnOwSENm69vjnQH0Ns/6KB28SK1G5DaX5Lng=
 github.com/Albinzr/kafkaGo v1.1.8/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
+github.com/Albinzr/kafkaGo v1.1.9/go.mod h1:zvhEAcny8uS8XJ4SmKAKgVtE5DkuszcqEd2RPh7HiX0=
 github.com/Albinzr/lzGo v0.0.8 h1:HKsXS9xYcwU5SU5HxgQ9sYUE2l2fbIiFzedCAEIjcvA=
 github.com/Albinzr/lzGo v0.0.8/go.mod h1:hL93umxYuDbv9lBhdCycpbLJGacTJCa44zzGgSMwjZ0=
 github.com/Albinzr/lzGo v1.0.2 h1:p8UFlHyL4JWPM9i7+DhbT4QDTLn0d4mI/Y/VVXm7hK0=
