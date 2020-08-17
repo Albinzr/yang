@@ -70,6 +70,7 @@ func readFromKafka() {
 
 	// kafkaConfig.Reader(kafkaReaderCallback)
 	// abc()
+	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
 	for {
 		if kafkaConfig.ReadWithLimitFinished {
 			kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
