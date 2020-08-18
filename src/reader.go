@@ -20,12 +20,13 @@ import (
 var env = util.LoadEnvConfig()
 
 var kafkaConfig = &kafka.Config{
-	Topic:     env.KafkaTopic,
-	Partition: env.Partition,
-	URL:       env.KafkaURL,
-	GroupID:   env.GroupID,
-	MinBytes:  env.MinBytes,
-	MaxBytes:  env.MaxBytes,
+	Topic:                 env.KafkaTopic,
+	Partition:             env.Partition,
+	URL:                   env.KafkaURL,
+	GroupID:               env.GroupID,
+	MinBytes:              env.MinBytes,
+	MaxBytes:              env.MaxBytes,
+	ReadWithLimitFinished: true,
 }
 
 var dbConfig = &db.Config{
@@ -68,26 +69,26 @@ func readFromKafka() {
 	}
 	util.LogInfo("Starting reading message from kafka")
 
-	// kafkaConfig.Reader(kafkaReaderCallback)
-	// abc()
-	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
-	for {
-		if kafkaConfig.ReadWithLimitFinished {
-			kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
-			fmt.Println("in..........................................", time.Now())
-		}
+	kafkaConfig.Reader(kafkaReaderCallback)
+	// // abc()
+	// // kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
+	// for {
+	// 	if kafkaConfig.ReadWithLimitFinished {
+	// 		kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
+	// 		fmt.Println("in..........................................", time.Now())
+	// 	}
 
-	}
+	// }
 
 }
 
-func abc() {
-	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
-	defer func() {
-		abc()
-		fmt.Println("defer called...........................................................................................")
-	}()
-}
+// func abc() {
+// 	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
+// 	defer func() {
+// 		abc()
+// 		fmt.Println("defer called...........................................................................................")
+// 	}()
+// }
 
 func getMsg(msg string) (string, error) {
 	msg, err := lz.DecompressFromBase64(msg)
