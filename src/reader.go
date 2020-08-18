@@ -70,25 +70,14 @@ func readFromKafka() {
 	util.LogInfo("Starting reading message from kafka")
 
 	// kafkaConfig.Reader(kafkaReaderCallback)
-	// // abc()
-	// // kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
 	for {
 		if kafkaConfig.ReadWithLimitFinished {
 			kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
 			fmt.Println("in..........................................", time.Now())
 		}
-
 	}
 
 }
-
-// func abc() {
-// 	kafkaConfig.ReaderWithLimit(10, kafkaReaderCallback)
-// 	defer func() {
-// 		abc()
-// 		fmt.Println("defer called...........................................................................................")
-// 	}()
-// }
 
 func getMsg(msg string) (string, error) {
 	msg, err := lz.DecompressFromBase64(msg)
@@ -139,20 +128,20 @@ func kafkaReaderCallback(reader kafka.Reader, message kafka.Message) {
 		util.LogInfo("wrong data detected _______________********_______________", len(msg), "incoming data", jsonInterface)
 	}
 
-	commitKafkaMessage(err, reader, message)
+	// commitKafkaMessage(err, reader, message)
 	//printMemUsage()
 
 }
 
-func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
-	if err == nil {
-		kafka.Commit(reader, message)
-	} else {
-		//TODO: - if duplicare remove else set up a retry system (3 times) then delete
-		fmt.Println("err-------->", err)
-		kafka.Commit(reader, message)
-	}
-}
+// func commitKafkaMessage(err error, reader kafka.Reader, message kafka.Message) {
+// 	if err == nil {
+// 		kafka.Commit(reader, message)
+// 	} else {
+// 		//TODO: - if duplicare remove else set up a retry system (3 times) then delete
+// 		fmt.Println("err-------->", err)
+// 		kafka.Commit(reader, message)
+// 	}
+// }
 
 func startKafka() error {
 	if kafkaConfig.IsKafkaReady() {
