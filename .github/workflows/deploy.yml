@@ -54,4 +54,4 @@ jobs:
         host: 34.72.234.240
         username: git_bot
         key: ${{ secrets.SERVER_PRIVATE_KEY }}
-        script: cd yang && sudo docker pull gcr.io/applytics-303318//yang-image:latest && sudo docker-compose -f docker-compose-production.yaml up -d && sudo docker image prune -f
+        script: cd yang && sudo docker pull gcr.io/applytics-303318/yang-image:latest && sudo docker-compose -f docker-compose-production.yaml up -d && sudo docker image prune -f
