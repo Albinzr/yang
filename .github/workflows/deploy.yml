@@ -20,7 +20,7 @@ jobs:
       run: docker image ls
     
     - name: Tag image
-      run:  docker tag yang-image gcr.io/pplytics-303318/yang-image 
+      run:  docker tag yang-image gcr.io/applytics-303318/yang-image 
       
     # Setup gcloud CLI
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
