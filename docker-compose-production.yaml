@@ -3,7 +3,7 @@ services:
 
 # reader server to mongo
   yang:
-    image: gcr.io/applytics/yang-image:latest
+    image: gcr.io/applytics-303318/yang-image:latest
     container_name: yang-container 
     networks:
       - yinyang-network
